@@ -1,0 +1,7 @@
+imdb/*
+output/*
+*.sqlite
+*.json
+
+.idea/*
+*.iml
