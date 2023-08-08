@@ -32,7 +32,7 @@ Download the JSON file [movies.tinydb.json](!!!!!) and save it somewhere sensibl
 
 ## TinyDB by example
 
-TinyDB has the concept of "tables"; in the same way relational databases group similar objects into tables, we do the same in TinyDB. In other document databases this form of grouping may be called a "collection" or an "index" (not to be confused with a relational or search index; same name, very different concept!). Unlike relational tables, in TinyDB these tables are only for logically grouping documents together; documents in the same table do not have to similar structure, and there is no schema.
+TinyDB has the concept of "tables"; in the same way relational databases group similar objects into tables, we do the same in TinyDB. In other document databases this form of grouping may be called a "collection" (in MongoDB) or an "index" (in ElasticSearch, and not to be confused with a relational or search index; same name, very different concept!). Unlike relational tables, in TinyDB these tables are only for logically grouping documents together; documents in the same table do not have to similar structure, and there is no schema.
 
 Every document in a TinyDB table has an ID, called `doc_id`. It is possible to use custom classes to extend TinyDB to use string IDs, but by default it uses integers. This means we haven't used the `movie_id` and `person_id` fields as document IDs; the `doc_id` values are arbitrary.
 
@@ -44,6 +44,8 @@ Our TinyDB has two tables, `movies` and `people`.
 tdb_movies = tdb.table("movies")
 tdb_people = tdb.table("people")
 ```
+
+Every query below this point assumes the 5 lines of Python above, importing and declaring the table variables, have already been run in your script or interpreter. 
 
 ### Document schemas?
 
@@ -218,7 +220,7 @@ tdb_movies.count(Query().genres.all(['Romance', 'Comedy']))
 ```
 Compare this to the SQL it took to compute the same list; the de-normalisation of the data makes some things much easier.
 
-If the objects in the list are more complex, we can provide another `Query()` that operates on the documents in that list. To find all movies directed by Steven Spielberg, we can do:
+If the objects in the list are more complex, we can provide another `Query()` that operates on the sub-documents in that list. To find all movies directed by Steven Spielberg, we can do:
 ```python
 tdb_movies.count(Query().directors.any(Query().name == 'Steven Spielberg'))
 
