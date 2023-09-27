@@ -32,7 +32,7 @@ Download the JSON file [movies.tinydb.json](!!!!!) and save it somewhere sensibl
 
 ## TinyDB by example
 
-TinyDB has the concept of "tables"; in the same way relational databases group similar objects into tables, we do the same in TinyDB. In other document databases this form of grouping may be called a "collection" (in MongoDB) or an "index" (in ElasticSearch, and not to be confused with a relational or search index; same name, very different concept!). Unlike relational tables, in TinyDB these tables are only for logically grouping documents together; documents in the same table do not have to similar structure, and there is no schema.
+TinyDB has the concept of "tables"; in the same way relational databases group similar objects into tables, we do the same in TinyDB. In other document databases this form of grouping may be called a "collection" (in MongoDB) or an "index" (in ElasticSearch, and not to be confused with a relational or search index; same name, very different concept!). Unlike relational tables, in TinyDB these tables are only for logically grouping documents together; documents in the same table do not have to have similar structure, and there is no schema.
 
 Every document in a TinyDB table has an ID, called `doc_id`. It is possible to use custom classes to extend TinyDB to use string IDs, but by default it uses integers. This means we haven't used the `movie_id` and `person_id` fields as document IDs; the `doc_id` values are arbitrary.
 
@@ -77,7 +77,7 @@ What about someone who never acted, but only directed?
 ```
 This time we don't have an `acted_in` attribute but a `directed` attribute instead. Our people documents do not have to have a fixed schema, we can exclude attributes that aren't relevant. The possible attributes for the positions people had are `acted_in`, `directed`, `produced`, `wrote`, and `composed_for`. Inside each is a list of movie objects that contain the `movie_id`, `title`, `year` and may contain `job` information. Someone who acted and directed would have both `acted_in` and `directed` attributes, for example.
 
-Document databases have no required schema, so there's nothing to stop documents representing people using `birthyear` sometimes, `birthYear` other times, and `birth_year` elsewhere. In Python, attributes are normally named in `snake_case`, but in JSON they are often in `camelCase` due to JavaScript. In this database attributes have consistent names, chosen to be the same as the relational attributes, but are absent when unknown or irrelevant. 
+Document databases have no required schema, so there's nothing to stop documents representing people using `birthyear` sometimes, `birthYear` other times, and `birth_year` elsewhere. In Python, attributes are normally named in `snake_case`, but in JSON they are often in `camelCase` due to JavaScript. In this database attributes have consistent names, chosen to be the same as the relational attributes, but are absent when unknown or irrelevant. There is also nothing to stop us from adding a movie document to the people table, either deliberately or accidentally; the table names are for logical grouping, but they don't enforce anything!
 
 In general, with a schemaless document database system, it is up to the application using it to impose some sort of structure on the documents it stores. Since it turned out that most of the time at least a loose structure to documents is desired, most modern document databases allow some form of schema validation to prevent mistakes.
 
