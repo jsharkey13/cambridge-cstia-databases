@@ -683,3 +683,5 @@ a       b       form_one  form_two
 ## Final notes
 
 At this point it is probably worth clarifying that you do not have to write SQL keywords in capital letters. The practice is a throwback to the days when SQL was written in basic text processors with no syntax highlighting, in order to make the keywords stand out and improve readability. Capitalised keywords can help the reader distinguish between keywords and column names when reserved words have been used as column names (like our `year` for movies, which is also an SQL keyword). Using lowercase works just as well, but note that column names _are_ case-sensitive in many DBMSes (unlike keywords). Technically mixed-case also works but, unless you're trying to be an internet meme, maybe don't write `SeLeCt * FrOm movies LiMiT 1;`.
+
+For historical reasons, SQLite [does not enforce foreign key constraints by default](https://www.sqlite.org/foreignkeys.html#fk_enable). If you decide to experiment with the `INSERT`, `UPDATE` and `DELETE` commands, you will likely want to turn on foreign key constraints using `PRAGMA foreign_keys = ON;` _each time you connect to the database_.
