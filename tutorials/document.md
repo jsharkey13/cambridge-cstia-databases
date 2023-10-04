@@ -22,7 +22,7 @@ from tinydb import Query
 tdb = tinydb.TinyDB('/path/to/movies.tinydb.json')
 ```
 
-Note the second import line. We are going to need this useful function soon, and we have imported it directly because we will use it extensively:
+Note the second import line. We are going to need this useful function soon, and we have imported it directly because we will use it extensively.
 
 
 ### Getting the data
@@ -45,7 +45,7 @@ tdb_movies = tdb.table("movies")
 tdb_people = tdb.table("people")
 ```
 
-Every query below this point assumes the 5 lines of Python above, importing and declaring the table variables, have already been run in your script or interpreter. 
+Every query below this point assumes the 5 lines of Python above, importing the library and declaring the table variables, have already been run in your script or interpreter. 
 
 ### Document schemas?
 
@@ -145,7 +145,7 @@ We can also use the "fragment" approach, to find a document which contains the f
 ```python
  tdb_movies.get(Query().fragment({'movie_id': 'tt1517268'}))
 ```
-This returns the same document as before. Notice that we don't have to make the `Query` object separately if we're not going to refer to it more than once; we can just use it inline.
+This returns the same document as before. Notice that we don't have to make the `Query` object separately, we can just use it inline.
 
 Once we have a document, we can access attributes of it as with any Python dictionary:
 ```python
@@ -291,7 +291,7 @@ How might we do it ourselves in TinyDB? We could write a `.test(...)` function t
 # WARNING! This is _exceptionally_ slow and may hang your interpreter for some time!
 tdb_movies.count(Query().title.test(lambda t: tdb_movies.count(Query().title == t) > 1))
 ```
-Whilst this does work correctly, it is incredibly inefficient. It will help to have a model about how TinyDB works under the hood. All the query methods work by simply iterating over every document in the table and evaluating the condition on each document in turn. So our test function loops over every movie and checks the title, then counts those that match. We then run this function once per movie! In terms of complexity, we have made something at least O(n^2) in the number of movies.
+Whilst this does work correctly, it is incredibly inefficient. It will help to have a model about how TinyDB works under the hood. All the query methods simply iterate over every document in the table and evaluate the condition on each document in turn. So our test function loops over every movie and checks the title, then counts those that match. We then run this function once per movie! In terms of complexity, we have made something at least O(n^2) in the number of movies.
 
 It is possible to iterate through all the movies ourselves. The table object can be used as an iterator and we can collect the documents by title and then filter them ourselves:
 ```python
