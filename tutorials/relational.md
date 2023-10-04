@@ -4,7 +4,7 @@
 
 This tutorial is designed to get you started with our relational database and ready to complete the relational Tick. We'll be using a database of films, cast and crew information from the [Internet Movie Database (IMDb)](https://developer.imdb.com/non-commercial-datasets/). From here we'll use 'movie', instead of 'film', for consistency. The dataset from IMDb is not complete; it contains only ~10 people per movie, and only ~3 genres per movie -- but this will be enough for our purposes. It may mean that cast members you expect to see on a movie are missing, or links between movies you expect to find don't exist.
 
-Our relation database management system (DBMS) will be [SQLite](https://www.sqlite.org/index.html), a popular open-source format chosen for its simplicity. Unlike other mainstream database systems, such as [PostgreSQL](https://www.postgresql.org/) or [MariaDB](https://mariadb.org/), it does not use a client-server model. SQLite uses a single file to store the database and does not support multiple concurrent users. SQLite is used extensively in mobile operating systems; iOS and Android both use SQLite databases extensively under the hood. All your text messages, WhatsApp and Signal chats will be stored in SQLite databases on your device, for example.
+Our relation database management system (DBMS) will be [SQLite](https://www.sqlite.org/index.html), a popular open-source format chosen for its simplicity. Unlike other mainstream database systems, such as [PostgreSQL](https://www.postgresql.org/) or [MariaDB](https://mariadb.org/), it does not use a client-server model. SQLite uses a single file to store the database and does not support multiple concurrent users. SQLite is widely used in mobile operating systems; iOS and Android both use SQLite databases extensively under the hood. All your text messages, WhatsApp and Signal chats will be stored in SQLite databases on your device, for example.
 
 Like other relational databases, SQLite uses [SQL](https://en.wikipedia.org/wiki/SQL) as the query language. SQL is an evolving language, vast in its scope. SQL is standardised, but many database vendors use their own variations in syntax and keywords. Whilst this tutorial will focus on SQLite, the syntax we will cover should be common to all SQL databases unless noted.
 
@@ -410,7 +410,7 @@ The `JOIN ... ON ...` syntax is preferable, for clarity and because for outer jo
 
 #### Natural joins
 
-In this case we could also have used a `NATURAL JOIN`; natural joins join tables on **all** shared column names; in this case the only shared column name was `movie_id` and the join would have behaved as we might have expected. Note that foreign keys are irrelevant to a natural join; the join is based solely on the column _names_ and nothing more.
+In this case we could also have used a `NATURAL JOIN`. Natural joins join tables on **all** shared column names; here the only shared column name was `movie_id` and the join would have behaved as we might have expected. Note that foreign keys are irrelevant to a natural join; the join is based solely on the column _names_ and nothing more.
 
 In the real world, `NATURAL JOIN` is considered fragile and dangerous; the columns of a table are not fixed and a query that once worked can easily break if a new column is added that happens to have a shared name. The logic of how the join works is no longer in the query but determined by the current state of the database. Additionally, consider what happens when two tables have a common column name that is not related, such as a `last_updated` time; there are unlikely to be circumstances where we would want to join on equal last updated timestamps for different objects! Never use a `NATURAL JOIN`.
 
@@ -625,7 +625,7 @@ SELECT * FROM movies WHERE movie_id IN (SELECT movie_id FROM rom_coms);
 
 There is also `EXCEPT` for set difference, `UNION` for set union removing duplicate values, and `UNION ALL` for a union operation preserving duplicate values. Note that in most SQL dialects you can include brackets around the sides of these set operations, but SQLite does not support this.
 ```sql
--- not allowed:
+-- not allowed by SQLite:
 (SELECT 1 AS n) UNION (SELECT 2 AS n);
 -- allowed:
 SELECT 1 AS n UNION SELECT 2 AS n;
@@ -682,4 +682,4 @@ a       b       form_one  form_two
 
 ## Final notes
 
-At this point it is probably worth clarifying that you do not have to write SQL keywords in capital letters. The practice is a throwback to the days when SQL was written in basic text processors with no syntax highlighting, in order to make the keywords stand out and improve readability.Capitalised keywords can help the reader distinguish between keywords and column names when reserved words have been used as column names (like our `year` for movies, which is also an SQL keyword). Using lowercase works just as well, though, but note that column names _are_ case-sensitive in many DBMSes (unlike keywords). Technically mixed-case also works but, unless you're trying to be an internet meme, maybe don't write `SeLeCt * FrOm movies LiMiT 1;`.
+At this point it is probably worth clarifying that you do not have to write SQL keywords in capital letters. The practice is a throwback to the days when SQL was written in basic text processors with no syntax highlighting, in order to make the keywords stand out and improve readability. Capitalised keywords can help the reader distinguish between keywords and column names when reserved words have been used as column names (like our `year` for movies, which is also an SQL keyword). Using lowercase works just as well, but note that column names _are_ case-sensitive in many DBMSes (unlike keywords). Technically mixed-case also works but, unless you're trying to be an internet meme, maybe don't write `SeLeCt * FrOm movies LiMiT 1;`.
