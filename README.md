@@ -1,6 +1,6 @@
 # Movies Databases
 
-This repo contains code to generate several different databases containing the same data, for the [Cambridge NST IA Databases course](https://www.cl.cam.ac.uk/teaching/2324/Databases/). 
+This repo contains code to generate several different databases containing the same data, for the [Cambridge CST IA Databases course](https://www.cl.cam.ac.uk/teaching/2324/Databases/). 
 
 The data is a subset of [the IMDb non-commercial datasets](https://developer.imdb.com/non-commercial-datasets/). The list of movies is filtered to only include popular movies, or those with useful properties such as duplicate names. The cast and crew data is then filtered down to only include those people relevant to this movies subset. The aim is to output ~1500 movies, to keep the database accessible even on basic hardware.
 
