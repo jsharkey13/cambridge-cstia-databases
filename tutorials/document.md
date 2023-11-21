@@ -315,3 +315,41 @@ TinyDB has no support for aggregation of any kind. If we wanted to know how many
 
 As above, in TinyDB it is possible to iterate through all the documents yourself and compute the aggregate statistics you want.
 
+
+
+### Trivia data
+
+Unlike the relational or graph databases, the document database contains additional trivia information for each movie.
+
+The trivia data is a list of strings, under the key `trivia_entries`, up to 5 for each movie:
+
+```python
+tdb_movies.get(Query().movie_id == 'tt1160419')["trivia_entries"]
+```
+
+The trivia entries are not sub-documents, so we can't search them using TinyDB's Query methods. But it is possible to search them using the `.test(...)` method. For example, to find movies with trivia that mentions computer hackers, remembering that trivia entries are a list of strings:
+
+```python
+tdb_movies.count(Query().trivia_entries.test(lambda entries: any([" hacker " in t for t in entries])))
+```
+
+This use's Python's list comprehension syntax, but another way would be to just join all the trivia items together:
+
+```python
+tdb_movies.count(Query().trivia_entries.test(lambda trivia: " hacker " in " ".join(trivia)))
+```
+
+Finally, we could iterate over all the movies directly ourselves:
+
+```python
+matched_movies = []
+for movie_doc in tdb_movies:
+    trivia_entries = movie_doc["trivia_entries"]
+    for trivia_entry in trivia_entries:
+        if " hacker " in trivia_entry:
+            matched_movies.append(movie_doc)
+
+print(len(matched_movies))
+```
+
+These will return matches in some arbitrary order; multiple occurrences of the term in the trivia entries, which might indicate a 'better' match, will not affect order.  TinyDB also doesn't have support for common text operations like stemming (matching "hack", "hacking", "hacked", "hackers", etc by truncating all of these to "hack") or fuzzy-matching (e.g. matching "python" when "pyhton" was entered). Some systems like ElasticSearch, which is based on Apache Lucene, do have powerful text searching functionality which includes both the fuzzy matching and result ordering based on occurrence frequency. Other document databases, like MongoDB, have varying levels of text search functionality. Whilst ElasticSearch can store JSON documents and act like a NoSQL database, it describes itself as a "search engine" rather than a document database due to this focus on text search.
