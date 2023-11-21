@@ -47,7 +47,7 @@ The [full Cypher manual](https://neo4j.com/docs/cypher-manual/4.4/introduction/)
 
 ### Schema
 
-Like other NoSQL databases, Neo4j does not enforce a schema. There are two types of nodes in our database, labelled `Movie` and `Person`, which intuitively correspond to our movie and people objects. They have the same attribute names as the relational and document database, and the attributes are absent when they are `NULL`.
+Like other NoSQL databases, Neo4j does not enforce a schema. There are two types of nodes in our database, labelled `Movie` and `Person`, which intuitively correspond to our movie and people objects. They have the same attribute names as the relational database, and the attributes are absent when they are `NULL`.
 
 The relationships between people and movies have the same names as the document database person attributes but in capitals: `ACTED_IN`, `DIRECTED`, `PRODUCED`, `WROTE` and `COMPOSED_FOR`. They optionally have the `job` attribute as before.
 
@@ -165,4 +165,4 @@ This is vastly clearer and more concise than something equivalent in SQL!
 
 ## Final notes
 
-As with SQL, it is worth pointing out that Cypher is not case-sensitive and the keywords can be written in lowercase without issue. Capital letters are used here only to clearly distinguish the keywords.
+As with SQL, it is worth pointing out that Cypher is not case-sensitive and the keywords can be written in lowercase without issue. The relationship labels (e.g. `ACTED_IN`) are case-sensitive though. Capital letters are used for keywords here only to clearly distinguish them.
