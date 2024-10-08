@@ -305,7 +305,7 @@ It's worth highlighting that `WHERE` filtering happens _after_ the rows have bee
 
 Often we want to aggregate data together to give summary values. For example, suppose we wanted to know how many movies were made each year since 2018. We can use the GROUP BY construct to group rows together by shared attribute value, and then use an aggregate function like `count` to return a single result for that shared value. The `AS` keyword lets us name the result of this aggregate function. We'll use `count(*)` to mean "count how many rows in this group"; you can use `count(1)` or indeed any constant non-null value; the star highlights that it doesn't matter what part of the row we count. 
 ```sql
-SELECT year, count(*) AS n_movies FROM movies WHERE year > 2018 GROUP BY year ORDER BY year;
+SELECT year, count(*) AS n_movies FROM movies WHERE year >= 2018 GROUP BY year ORDER BY year;
 ```
 ```
 year  n_movies
