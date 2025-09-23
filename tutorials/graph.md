@@ -9,9 +9,9 @@ We'll be using [Neo4j](https://neo4j.com/) for the graph database; it is the mos
 
 ## Installation
 
-Neo4j, as the name suggests, requires Java. We'll need Java 11 or higher. If you don't already have a JDK installed, then the [Eclipse Temurin OpenJDK](https://adoptium.net/en-GB/temurin/releases/) is likely the best place to start.
+Neo4j, as the name suggests, requires Java. We'll need Java 17 or higher. If you don't already have a JDK installed, then the [Eclipse Temurin OpenJDK](https://adoptium.net/en-GB/temurin/releases/) is likely the best place to start.
 
-Once Java is installed, install the [Community Server version of Neo4j](https://neo4j.com/download-center/#community). Use version 4.4, the LTS version, since the database to be loaded was created using this version. Once downloaded and extracted, you should find you have a `bin` directory inside the Neo4j folder which contains the scripts you'll need to manage the Neo4j server.
+Once Java is installed, install the self-managed [Community version of Neo4j Graph Database](https://neo4j.com/deployment-center/). Use version 5.26, the LTS version, since the database to be loaded was created using this version. Once downloaded and extracted, you should find you have a `bin` directory inside the Neo4j directory which contains the scripts you'll need to manage the Neo4j server.
 
 The very first thing to do is to start the server and change the default login credentials; you can't use Neo4j until this is completed.
 
@@ -29,11 +29,11 @@ Having set the password, you can stop the server using Ctrl-C in the terminal.
 
 ### Getting the data
 
-Download the Neo4j database dump file [movies.neo4j.dump](!!!!!) and save it somewhere sensible.
+Download the Neo4j database dump file [neo4j.dump](!!!!!) and save it in a directory with no other `.dump` files.
 
-With the server stopped, we can load data using an admin script. We need to use `--force` to overwrite the existing (empty) default `neo4j` database. If you have used the community edition of Neo4j before or have other data in Neo4j, don't proceed here!
+With the server stopped, we can load data using an admin script. We need to use `--overwrite-destination=true` to overwrite the existing (empty) default `neo4j` database. If you have used the community edition of Neo4j before or have other data in Neo4j, don't proceed here!
 ```bash
-/path/to/bin/neo4j-admin load --force --from=/path/to/movies.neo4j.dump
+/path/to/bin/neo4j-admin database load neo4j --from-path=/path/to/dump/directory --overwrite-destination=true
 ```
 
 Start the server again using `neo4j console`, and then check Neo4j Browser; you should now see `Movie` and `Person` listed as "Node labels" and the various relationships listed under "Relationship types".
@@ -122,7 +122,7 @@ It is possible to match longer paths along relationships without typing them all
 A `*` by itself is unbounded; this will likely match far too many paths. Instead, we can list a specific number (remembering that it must be even!), using `[:ACTED_IN*2]` and then `*4`, `*6` and `*8` until we finally find a path that works:
 ```cypher
 MATCH path=(m:Person {name : 'Jennifer Lawrence'})
-            -[:ACTED_IN*8]-
+            -[:ACTED_IN*4]-
            (n:Person {name : 'Daniel Radcliffe'})
 RETURN path;
 ```
@@ -131,7 +131,7 @@ Or we could have bounded the number of hops to search directly, to between 2 and
 ```cypher
 // This will match a lot of nodes, be careful!
 MATCH path=(m:Person {name : 'Jennifer Lawrence'})
-            -[:ACTED_IN*2..10]-
+            -[:ACTED_IN*2..6]-
            (n:Person {name : 'Daniel Radcliffe'})
 RETURN path;
 ```

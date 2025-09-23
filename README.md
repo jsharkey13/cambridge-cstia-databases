@@ -48,7 +48,7 @@ This file is not plain SQL; it will likely contain an SQLite PRAGMA command at t
 To export the Neo4j database to file, stop the database server and then use the admin command to dump it to a file:
 
 ```bash
-/path/to/neo4j-admin dump --database=neo4j --to=/path/to/output/movies.neo4j.dump
+/path/to/neo4j-admin database dump --to-path=/path/to/output/folder neo4j
 ```
 
 ## Tutorials

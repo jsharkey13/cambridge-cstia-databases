@@ -221,18 +221,18 @@ Perhaps we are more interested in recent movies; if we wanted to see the 10 most
 SELECT movie_id, title, year FROM movies ORDER BY year DESC LIMIT 10;
 ```
 ```
-movie_id    title                                    year
-----------  ---------------------------------------  ----
-tt0439572   The Flash                                2023
-tt10366206  John Wick: Chapter 4                     2023
-tt12263384  Extraction II                            2023
-tt12758060  Tetris                                   2023
-tt1517268   Barbie                                   2023
-tt15398776  Oppenheimer                              2023
-tt16419074  Air                                      2023
-tt22297828  Chor Nikal Ke Bhaga                      2023
-tt24268454  The Kerala Story                         2023
-tt2906216   Dungeons & Dragons: Honor Among Thieves  2023
+movie_id    title                            year
+----------  -------------------------------  ----
+tt0899043   The Amateur                      2025
+tt10548174  28 Years Later                   2025
+tt10676052  The Fantastic Four: First Steps  2025
+tt11655566  Lilo & Stitch                    2025
+tt12299608  Mickey 17                        2025
+tt13357520  Heads of State                   2025
+tt13654226  The Gorge                        2025
+tt14205554  KPop Demon Hunters               2025
+tt16311594  F1: The Movie                    2025
+tt20969586  Thunderbolts*                    2025
 ```
 As queries get longer, you can optionally write them over multiple lines for clarity and to increase readability:
 ```sql
@@ -246,18 +246,18 @@ You can also order by multiple columns, noting that ascending order (`ASC`) is t
 SELECT movie_id, title, year FROM movies ORDER BY year DESC, title LIMIT 10;
 ```
 ```
-movie_id    title                                          year
-----------  ---------------------------------------------  ----
-tt16419074  Air                                            2023
-tt1517268   Barbie                                         2023
-tt22297828  Chor Nikal Ke Bhaga                            2023
-tt2906216   Dungeons & Dragons: Honor Among Thieves        2023
-tt12263384  Extraction II                                  2023
-tt6791350   Guardians of the Galaxy Vol. 3                 2023
-tt10366206  John Wick: Chapter 4                           2023
-tt9603212   Mission: Impossible - Dead Reckoning Part One  2023
-tt15398776  Oppenheimer                                    2023
-tt9362722   Spider-Man: Across the Spider-Verse            2023
+movie_id    title                          year
+----------  -----------------------------  ----
+tt10548174  28 Years Later                 2025
+tt7181546   Ballerina                      2025
+tt30988739  Black Bag                      2025
+tt32246771  Bring Her Back                 2025
+tt26584495  Companion                      2025
+tt16311594  F1: The Movie                  2025
+tt9619824   Final Destination: Bloodlines  2025
+tt31868189  Happy Gilmore 2                2025
+tt13357520  Heads of State                 2025
+tt26743210  How to Train Your Dragon       2025
 ```
 
 ### Filtering using WHERE
@@ -270,11 +270,11 @@ SELECT movie_id, title, year FROM movies WHERE type='movie' AND year >= 2013 LIM
 ```
 movie_id   title                            year
 ---------  -------------------------------  ----
+tt0293429  Mortal Kombat                    2021
 tt0359950  The Secret Life of Walter Mitty  2013
+tt0365907  A Walk Among the Tombstones      2014
 tt0369610  Jurassic World                   2015
-tt0437086  Alita: Battle Angel              2019
-tt0439572  The Flash                        2023
-tt0448115  Shazam!                          2019
+tt0385887  Motherless Brooklyn              2019
 ```
 
 The usual comparison operators work for both text values and numeric values; `=`, `>`, `<`, `>=`, `<=`, `<>` (or often `!=` too), and brackets `()`can be used to group operations. SQL also supports some basic pattern-matching for text values using the `LIKE` keyword; the `%` character is a wildcard, representing a match of any characters of any length; and `_` represents a single-character wildcard.
@@ -288,6 +288,8 @@ title
 Star Wars: Episode IV - A New Hope
 Star Wars: Episode V - The Empire Strikes Back
 Star Wars: Episode VI - Return of the Jedi
+Star Trek VI: The Undiscovered Country
+Star Trek: First Contact
 Star Wars: Episode I - The Phantom Menace
 Star Wars: Episode II - Attack of the Clones
 Star Wars: Episode III - Revenge of the Sith
@@ -295,6 +297,7 @@ Star Trek
 Star Trek Into Darkness
 Star Wars: Episode VII - The Force Awakens
 Star Wars: Episode VIII - The Last Jedi
+Star Wars: Episode IX - The Rise of Skywalker
 Star Trek Beyond
 ```
 
@@ -310,12 +313,13 @@ SELECT year, count(*) AS n_movies FROM movies WHERE year >= 2018 GROUP BY year O
 ```
 year  n_movies
 ----  --------
-2018  56
-2019  59
-2020  26
-2021  42
-2022  42
-2023  16
+2019  125
+2020  68
+2021  89
+2022  98
+2023  96
+2024  73
+2025  27
 ```
 
 When using `GROUP BY`, any attribute selected in the `SELECT` clause **must** be in the `GROUP BY` clause or inside an aggregate function. The only exception to this is when you are grouping by the primary key of one table in a JOIN, in which case you can select other attributes from that table (since they are unique for that primary key value being grouped by).
@@ -346,11 +350,11 @@ SELECT year, count(DISTINCT type) FROM movies GROUP BY year ORDER BY year DESC L
 ```
 year  count(DISTINCT type)
 ----  --------------------
-2023  1
-2022  1
+2025  1
+2024  1
+2023  2
+2022  2
 2021  2
-2020  2
-2019  2
 ```
 
 There are other aggregate functions; `avg` (mean), `sum`, `min` and `max` for numeric values:
@@ -360,7 +364,7 @@ SELECT min(votes), max(votes), avg(votes), sum(votes) FROM ratings;
 ```
 min(votes)  max(votes)  avg(votes)        sum(votes)
 ----------  ----------  ----------------  ----------
-5448        2771997     348167.154466085  518420893
+5019        3099011     255650.047359455  750332889
 ```
 We used the ratings table here, since it makes sense to think about average number of votes and total number of votes on movies. Notice we didn't include a `GROUP BY` clause but used aggregate functions; since there are no non-aggregate columns, the database groups all the rows into one group and computes these values on that full set of rows.
 
@@ -388,13 +392,13 @@ SELECT title, rating, votes FROM movies JOIN ratings ON movies.movie_id=ratings.
 ORDER BY rating DESC LIMIT 5;
 ```
 ```
-title                             rating  votes
---------------------------------  ------  -------
-Threat Level Midnight: The Movie  9.6     9882
-The Shawshank Redemption          9.3     2771997
-The Godfather                     9.2     1929661
-12 Angry Men                      9       822267
-The Godfather Part II             9       1312387
+title                     rating  votes
+------------------------  ------  -------
+The Shawshank Redemption  9.3     3099011
+The Godfather             9.2     2159874
+The Dark Knight           9.1     3074009
+12 Angry Men              9       948232
+The Godfather Part II     9       1451637
 ```
 
 This is an inner join (indeed we could have written `movies INNER JOIN ratings`, the `INNER` keyword is entirely optional). It uses the `JOIN ... ON ...` construct, with the `ON` clause used to decide which pairs of rows from all possible pairings should be included. There are other older ways to write this join; the following are all equivalent for an inner join:
@@ -458,11 +462,11 @@ LIMIT 5;
 ```
 title                    year  votes
 -----------------------  ----  ------
-Amélie                   2001  773610
-Silver Linings Playbook  2012  725171
-Life Is Beautiful        1997  716419
-Crazy, Stupid, Love.     2011  537985
-500 Days of Summer       2009  534903
+Amélie                   2001  825797
+Life Is Beautiful        1997  789990
+Silver Linings Playbook  2012  764173
+500 Days of Summer       2009  601177
+Crazy, Stupid, Love.     2011  600746
 ```
 Since we need to join the `genres` and `has_genre` tables twice, we need to give each of them an alias using the `AS` construct so that we can be clear which constraints belong to which copy of the table.
 
@@ -480,9 +484,9 @@ LIMIT 3;
 ```
 name            n_movies
 --------------  --------
-Lauren Bacall   1
 John Belushi    1
 Ingrid Bergman  1
+Bette Davis     1
 ```
 Are there not people in our `people` table that have never acted? Why are there no rows with `n_movies` equal to zero? What we want here is to keep the `people` row even if it does not match a `has_position` row. A `LEFT JOIN` (or `LEFT OUTER JOIN`, the `OUTER` is entirely optional) will allow us to do this. If the row from the left side of the join does not match a row from the right side table, it is kept anyway and `NULL` values used for all the right table attributes in the resulting row.
 ```sql
@@ -513,9 +517,9 @@ LIMIT 3;
 ```
 name            n_movies
 --------------  --------
-Lauren Bacall   1
 John Belushi    1
 Ingrid Bergman  1
+Bette Davis     1
 ```
 Our zeroes are gone again, despite our `LEFT JOIN`! The issue here is that `WHERE` clause filtering happens _after_ the join has happened. If we look at the results of the join before we do any grouping, the problem becomes clearer:
 
@@ -528,7 +532,7 @@ LIMIT 3;
 ```
 person_id  name            movie_id   position
 ---------  --------------  ---------  --------
-nm0000002  Lauren Bacall   tt0276919  actor
+nm0000002  Lauren Bacall   tt0100157  actor
 nm0000004  John Belushi    tt0080455  actor
 nm0000005  Ingmar Bergman  <null>     <null>
 ```
