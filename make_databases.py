@@ -145,6 +145,27 @@ def is_empty_val(value):
     # Otherwise the value is meaningful:
     return False
 
+def merge_roles(movie_roles):
+    if len(movie_roles) == 1:
+        return movie_roles[0]
+
+    if len({r.movie_id for r in movie_roles}) != 1:
+        raise ValueError
+    if len({r.person_id for r in movie_roles}) != 1:
+        raise ValueError
+    if len({r.category for r in movie_roles}) != 1:
+        raise ValueError
+
+    movie_roles = sorted(movie_roles, key=lambda r: r.position)
+    movie_id = movie_roles[0].movie_id
+    person_id = movie_roles[0].person_id
+    category = movie_roles[0].category
+    job = ", ".join(r.job for r in movie_roles if r.job is not None)
+    roles = list(dict.fromkeys([r for mr in movie_roles for r in mr.roles]))  # unique roles, but preserve order
+    position = min([r.position for r in movie_roles if r.position is not None] or [None])
+
+    return MovieRole(dict(), movie_id, person_id, category, job, roles, position)
+
 
 class DataObject:
 
@@ -183,13 +204,14 @@ class MovieRating(DataObject):
 
 
 class MovieRole(DataObject):
-    def __init__(self, data):
-        self.movie_id = data["tconst"]
-        self.person_id = data["nconst"]
-        self.category = data["category"]
-        self.job = data["job"] if "\\N" != data["job"] else None
-        self.roles = json.loads(data["characters"]) if "\\N" != data["characters"] else []
-        self.position = int(data["ordering"]) if data["ordering"].isdecimal() else None
+    def __init__(self, data, movie_id=None, person_id=None, category=None, job=None, roles=None, position=None):
+        self.movie_id = movie_id or data.get("tconst")
+        self.person_id = person_id or data.get("nconst")
+        self.category = category or data.get("category")
+        self.job = job or data.get("job") if "\\N" != data.get("job", "\\N") else None
+        self.roles = roles or (json.loads(data.get("characters")) if "\\N" != data.get("characters", "\\N") else None) or []
+        self.position = position or int(data.get("ordering")) if data.get("ordering", "").isdecimal() else None
+        self.key = (self.movie_id, self.person_id, self.category)
 
     def __str__(self):
         return "<MovieRole:\n\tMovieID: {}\n\tPersonID: {}\n\tCategory: {}\n\tJob: {}\n\tRoles: {}\n\tPosition: {}\n>".format(
@@ -269,13 +291,13 @@ with get_tsvgz_reader(os.path.join(IMDB_DIRECTORY, IMDB_FILES["film_titles"])) a
             # We need to reduce the number of movies included a lot, so lets
             # remove the lower rated films, prioritised by how recent they are:
             if movie.year < 1990:
-                if rating.rating < 9 and rating.votes < 2E5:
+                if rating.rating < 9 and rating.votes < 200000:
                     continue
             elif movie.year < 2013:
-                if rating.rating < 8 and rating.votes < 2E5:
+                if rating.rating < 7 and rating.votes < 200000:
                     continue
             else:
-                if rating.rating < 7 and rating.votes < 5E5:
+                if rating.rating < 6 and rating.votes < 200000:
                     continue
 
         # If not skipped, add to the movies dict:
@@ -291,8 +313,7 @@ movie_ratings = None  # Allow some garbage collection!
 
 # Load the movie personnel for these movies:
 print("[LOAD MOVIE PERSONNEL]")
-movie_roles_people = dict()
-movie_roles_movies = dict()
+movie_roles = dict()
 with get_tsvgz_reader(os.path.join(IMDB_DIRECTORY, IMDB_FILES["films_people"])) as films_people_reader:
     for film_person_data in films_people_reader:
         role = MovieRole(film_person_data)
@@ -309,17 +330,28 @@ with get_tsvgz_reader(os.path.join(IMDB_DIRECTORY, IMDB_FILES["films_people"])) 
             # People appearing as themselves might as well be "actors".
             role.category = "actor"
 
-        # We're going to need roles by person and roles by movie later:
-        if role.person_id not in movie_roles_people:
-            movie_roles_people[role.person_id] = []
-        movie_roles_people[role.person_id].append(role)
+        if role.key not in movie_roles:
+            movie_roles[role.key] = []
+        movie_roles[role.key].append(role)
 
-        if role.movie_id not in movie_roles_movies:
-            movie_roles_movies[role.movie_id] = []
-        movie_roles_movies[role.movie_id].append(role)
+movie_roles_people = dict()
+movie_roles_movies = dict()
+for (movie_id, person_id, category), roles in movie_roles.items():
+    role = merge_roles(roles)
+    # We're going to need roles by person and roles by movie later:
+    if role.person_id not in movie_roles_people:
+        movie_roles_people[role.person_id] = []
+    movie_roles_people[role.person_id].append(role)
+
+    if role.movie_id not in movie_roles_movies:
+        movie_roles_movies[role.movie_id] = []
+    movie_roles_movies[role.movie_id].append(role)
 
 print("roles (by person):", sum([len(roles) for roles in movie_roles_people.values()]))
 print("roles (by movie):", sum([len(roles) for roles in movie_roles_movies.values()]))
+
+# Cleanup unneeded data:
+movie_roles = None
 
 # Load the relevant people:
 print("[LOAD PEOPLE]")
