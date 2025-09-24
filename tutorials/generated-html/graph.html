@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>graph</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/a11y-light.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="highlightjs-cypher.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body>
+<h1 id="graph-database">Graph Database</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The graph database is an optional part of the course, and so the focus here will be on installation and basic querying only. Again we’ll be using a database of movies, cast and crew information from the <a href="https://developer.imdb.com/non-commercial-datasets/">Internet Movie Database (IMDb)</a>. The data included is the same as the relational and document databases, so it should be possible to compare query outputs for consistency.</p>
+<p>We’ll be using <a href="https://neo4j.com/">Neo4j</a> for the graph database; it is the most popular graph NoSQL database, and uses a language called Cypher instead of SQL.</p>
+<h2 id="installation">Installation</h2>
+<p>Neo4j, as the name suggests, requires Java. We’ll need Java 11 or higher. If you don’t already have a JDK installed, then the <a href="https://adoptium.net/en-GB/temurin/releases/">Eclipse Temurin OpenJDK</a> is likely the best place to start.</p>
+<p>Once Java is installed, install the <a href="https://neo4j.com/download-center/#community">Community Server version of Neo4j</a>. Use version 4.4, the LTS version, since the database to be loaded was created using this version. Once downloaded and extracted, you should find you have a <code>bin</code> directory inside the Neo4j folder which contains the scripts you’ll need to manage the Neo4j server.</p>
+<p>The very first thing to do is to start the server and change the default login credentials; you can’t use Neo4j until this is completed.</p>
+<p>Start the neo4j server:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">/path/to/bin/neo4j</span> console</a></code></pre></div>
+<p>(On Windows you have a choice between Command Prompt, <code>neo4j.bat</code>; or Powershell, <code>neo4j.ps1</code>, as the script to execute. Since the Command Prompt script just loads Powershell, it may be best to use a Powershell terminal so that Neo4j exits more cleanly when you quit).</p>
+<p>If you have trouble with Java, you can manually set the <code>JAVA_HOME</code> environment variable for your shell session to point to the directory where the correct version of Java is installed. This can be used to override which version of Java it is that Neo4j attempts to load.</p>
+<p>Once the server has started, it should state <code>Remote interface available at http://localhost:7474/</code>. Go to <a href="http://localhost:7474/">this Neo4j Browser URL</a>, and you should see the Neo4j Browser interface and a <code>:server connect</code> dialog. The default host and port are correct; use the default login <code>neo4j</code> with the password <code>neo4j</code> to connect to the database. You will immediately need to change the password; you can change this to any value, except the existing <code>neo4j</code>.</p>
+<p>Having set the password, you can stop the server using Ctrl-C in the terminal.</p>
+<h3 id="getting-the-data">Getting the data</h3>
+<p>Download the Neo4j database dump file <a href="!!!!!">movies.neo4j.dump</a> and save it somewhere sensible.</p>
+<p>With the server stopped, we can load data using an admin script. We need to use <code>--force</code> to overwrite the existing (empty) default <code>neo4j</code> database. If you have used the community edition of Neo4j before or have other data in Neo4j, don’t proceed here!</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">/path/to/bin/neo4j-admin</span> load --force --from=/path/to/movies.neo4j.dump</a></code></pre></div>
+<p>Start the server again using <code>neo4j console</code>, and then check Neo4j Browser; you should now see <code>Movie</code> and <code>Person</code> listed as “Node labels” and the various relationships listed under “Relationship types”.</p>
+<h2 id="cypher-by-example">Cypher by example</h2>
+<p>Neo4j has the concept of “nodes” and “relationships”, that form the vertices and edges of our graph. Nodes have “labels” that describe their type, and can have attributes called “keys”. Relationships are very similar, but must connect two nodes together.</p>
+<p>The <a href="https://neo4j.com/docs/cypher-manual/4.4/introduction/">full Cypher manual</a> can be found on the Neo4j website, alongside an official tutorial and introduction videos; we will just cover some simple examples.</p>
+<h3 id="schema">Schema</h3>
+<p>Like other NoSQL databases, Neo4j does not enforce a schema. There are two types of nodes in our database, labelled <code>Movie</code> and <code>Person</code>, which intuitively correspond to our movie and people objects. They have the same attribute names as the relational database, and the attributes are absent when they are <code>NULL</code>.</p>
+<p>The relationships between people and movies have the same names as the document database person attributes but in capitals: <code>ACTED_IN</code>, <code>DIRECTED</code>, <code>PRODUCED</code>, <code>WROTE</code> and <code>COMPOSED_FOR</code>. They optionally have the <code>job</code> attribute as before.</p>
+<h3 id="basic-matching">Basic matching</h3>
+<p>The Cypher language is similar to SQL; it is a declarative language where you state what you want to match and what you want returned from that match. The matching is declared in an almost ASCII-art syntax. For example, to match a single movie node:</p>
+<pre class="cypher"><code>MATCH (m:Movie)
+RETURN m
+LIMIT 1;</code></pre>
+<p>Here we have stated what we want to match: nodes are matched by <code>()</code>, optionally with their label such as <code>:Movie</code>; they also optionally have a name so that we can refer to them later in the query, here <code>m</code>. Once matched, in the Neo4j Browser you can view the node in a graph, not so useful here with only one node; view the node in a table; or as plain-text output like the command-line interface.</p>
+<p>Of course, we probably don’t want an arbitrary movie. There are multiple equivalent ways to specify attributes of the movie to match:</p>
+<pre class="cypher"><code>MATCH (m:Movie {title: &#39;Barbie&#39;})
+RETURN m
+LIMIT 1;
+
+// Or, equivalently:
+
+MATCH (m:Movie)
+WHERE m.title=&#39;Barbie&#39;
+RETURN m
+LIMIT 1;</code></pre>
+<p>Nodes with the label <code>Person</code> can be matched in exactly the same way:</p>
+<pre class="cypher"><code>MATCH (p:Person)
+RETURN p
+LIMIT 1;</code></pre>
+<p>We can match relationships by themselves, too. These are matched using square brackets, again optionally with a label:</p>
+<pre class="cypher"><code>MATCH ()-[r:ACTED_IN]-()
+RETURN r
+LIMIT 1;</code></pre>
+<p>Since we did not return the nodes at either end of the relationship, this isn’t particularly useful. However, it does show the pattern matching nature of Cypher. We matched a relationship between two unnamed nodes, but we could add further constraints.</p>
+<p>Say we wanted to know every movie directed by Steven Spielberg:</p>
+<pre class="cypher"><code>MATCH (:Person {name: &#39;Steven Spielberg&#39;})-[:DIRECTED]-(m:Movie)
+RETURN m;</code></pre>
+<p>This only returns the movies, but we can match the whole subgraph if we are just exploring the data. The previous form is likely more useful to a program, but this form shows the graph nature of Neo4j well:</p>
+<pre class="cypher"><code>MATCH path=(:Person {name: &#39;Steven Spielberg&#39;})-[:DIRECTED]-(:Movie)
+RETURN path;</code></pre>
+<h3 id="aggregation">Aggregation</h3>
+<p>Patterns to match can be more complicated than single pairs of nodes, and it is not necessary to return nodes and relationships themselves either.</p>
+<p>The following query counts how many movies a pair of actors have acted in together (and highlights that the dataset we are using is incomplete; the results are not quite as you would expect if <em>all</em> actors were listed for all movies):</p>
+<pre class="cypher"><code>MATCH (p1:Person) - [:ACTED_IN] -&gt; (m:Movie) &lt;- [:ACTED_IN] - (p2:Person)
+WHERE p1.person_id &lt; p2.person_id
+RETURN p1.name as name1, p2.name as name2, count(*) as total
+ORDER BY total desc, name1, name2
+LIMIT 10;</code></pre>
+<h3 id="longer-path-matching">Longer path matching</h3>
+<p>It is possible to match longer paths along relationships without typing them all out. The <code>*</code> operator allows us to quantify how many relationship hops to make. If we wanted to find a Bacon-number style link between Jennifer Lawrence and Daniel Radcliffe, for example, we can squash the <code>[:ACTED_IN]</code> hops together.</p>
+<p>A <code>*</code> by itself is unbounded; this will likely match far too many paths. Instead, we can list a specific number (remembering that it must be even!), using <code>[:ACTED_IN*2]</code> and then <code>*4</code>, <code>*6</code> and <code>*8</code> until we finally find a path that works:</p>
+<pre class="cypher"><code>MATCH path=(m:Person {name : &#39;Jennifer Lawrence&#39;})
+            -[:ACTED_IN*8]-
+           (n:Person {name : &#39;Daniel Radcliffe&#39;})
+RETURN path;</code></pre>
+<p>Or we could have bounded the number of hops to search directly, to between 2 and 10:</p>
+<pre class="cypher"><code>// This will match a lot of nodes, be careful!
+MATCH path=(m:Person {name : &#39;Jennifer Lawrence&#39;})
+            -[:ACTED_IN*2..10]-
+           (n:Person {name : &#39;Daniel Radcliffe&#39;})
+RETURN path;</code></pre>
+<p>Since this returns <em>all</em> paths that match, of any allowed length, there will be a large number of nodes and relationships returned. Every <code>(:Person)-[:ACTED_IN]-(:Movie)-[:ACTED_IN]-(:Person)</code> grouping on every single possible path between these two actors is a valid path returned by the query.</p>
+<p>How do we know if we have found the shortest path? Neo4j has a <code>shortestpath(...)</code> function we can use, and we can return the length of the path and not the path itself. This time we can use an unbounded number of hops, since longer paths can be efficiently discarded during the search:</p>
+<pre class="cypher"><code>MATCH path=shortestpath(
+    (m:Person {name : &#39;Jennifer Lawrence&#39;})
+     -[:ACTED_IN*]-
+    (n:Person {name : &#39;Daniel Radcliffe&#39;}))
+RETURN length(path);</code></pre>
+<h3 id="bacon-number-efficiently">Bacon number, efficiently</h3>
+<p>Finally, we can use the graph database to compute Bacon numbers efficiently. This is where the power of using a graph database with efficient graph storage and built-in graph traversal operations comes into its own.</p>
+<p>Rather than just <code>shortestpath(...)</code> we can use the related <code>allshortestpaths(...)</code> to return shortest possible paths for many different <code>Person</code> nodes. Since Bacon number is traditionally the co-actor distance, this is half the number of <code>[:ACTED_IN]</code> hops we find:</p>
+<pre class="cypher"><code>MATCH path=allshortestpaths(
+          (m:Person {name : &#39;Kevin Bacon&#39;} ) -[:ACTED_IN*]- (n:Person))
+WHERE n.person_id &lt;&gt; m.person_id
+RETURN length(path)/2 AS bacon_number,
+       count(distinct n.person_id) AS total
+ORDER BY bacon_number;</code></pre>
+<p>This is vastly clearer and more concise than something equivalent in SQL!</p>
+<h2 id="final-notes">Final notes</h2>
+<p>As with SQL, it is worth pointing out that Cypher is not case-sensitive and the keywords can be written in lowercase without issue. The relationship labels (e.g. <code>ACTED_IN</code>) are case-sensitive though. Capital letters are used for keywords here only to clearly distinguish them.</p>
+</body>
+</html>
