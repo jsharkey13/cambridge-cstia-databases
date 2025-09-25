@@ -1,85 +1,240 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html>
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>document</title>
+  <title>Document Database Tutorial</title>
   <style>
-    body{ width: min(98%, 1000px); margin: 0 auto; padding: 1ex; } /* This line makes it a narrow column */
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 120ex;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <h1 id="document-database">Document Database</h1>
@@ -88,161 +243,178 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We’ll be using <a href="https://tinydb.readthedocs.io/en/latest/index.html">TinyDB</a> for our document database. TinyDB is a toy document database, chosen because it is simple and easy to set up. Importantly, its query interface is fairly close to those of libraries for accessing real document databases like <a href="https://www.mongodb.com/">MongoDB</a> or <a href="https://www.elastic.co/">ElasticSearch</a>. Under the hood, TinyDB uses JSON to store the data, and so it supports storing arbitrary JSON documents which it maps to Python dictionaries.</p>
 <h2 id="installation">Installation</h2>
 <p>Once you have Python installed, you can install the latest version of TinyDB by running:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">pip</span> install tinydb</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install tinydb</span></code></pre></div>
 <p>TinyDB has no dependencies and is written in pure Python, so it will run anywhere that can run Python.</p>
 <p>Once installed, in a Python program import <code>tinydb</code> and connect to the database JSON file:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="im">import</span> tinydb</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="im">from</span> tinydb <span class="im">import</span> Query</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">tdb <span class="op">=</span> tinydb.TinyDB(<span class="st">&#39;/path/to/movies.tinydb.json&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tinydb</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tinydb <span class="im">import</span> Query</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>tdb <span class="op">=</span> tinydb.TinyDB(<span class="st">&#39;/path/to/movies.tinydb.json&#39;</span>)</span></code></pre></div>
 <p>Note the second import line. We are going to need this useful function soon, and we have imported it directly because we will use it extensively.</p>
 <h3 id="getting-the-data">Getting the data</h3>
 <p>Download the JSON file <a href="!!!!!">movies.tinydb.json</a> and save it somewhere sensible. This file contains our entire database. If you decide to play with the data modification and insert commands later on, perhaps download a fresh copy of the database before attempting the Tick.</p>
 <h2 id="tinydb-by-example">TinyDB by example</h2>
 <p>TinyDB has the concept of “tables”; in the same way relational databases group similar objects into tables, we do the same in TinyDB. In other document databases this form of grouping may be called a “collection” (in MongoDB) or an “index” (in ElasticSearch, and not to be confused with a relational or search index; same name, very different concept!). Unlike relational tables, in TinyDB these tables are only for logically grouping documents together; documents in the same table do not have to have similar structure, and there is no schema.</p>
 <p>Every document in a TinyDB table has an ID, called <code>doc_id</code>. It is possible to use custom classes to extend TinyDB to use string IDs, but by default it uses integers. This means we haven’t used the <code>movie_id</code> and <code>person_id</code> fields as document IDs; the <code>doc_id</code> values are arbitrary.</p>
-<p>The documents returned from TinyDB are Python dictionaries. We can access their properties using the standard dictionary access (<code>doc[&quot;attribute_name&quot;]</code>) and if desired we can turn them into plain JSON using the <code>json</code> library with <code>json.dumps(doc)</code>.</p>
+<p>The documents returned from TinyDB are Python dictionaries. We can access their properties using the standard dictionary access (<code>doc["attribute_name"]</code>) and if desired we can turn them into plain JSON using the <code>json</code> library with <code>json.dumps(doc)</code>.</p>
 <p>Our TinyDB has two tables, <code>movies</code> and <code>people</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1">tdb_movies <span class="op">=</span> tdb.table(<span class="st">&quot;movies&quot;</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">tdb_people <span class="op">=</span> tdb.table(<span class="st">&quot;people&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tdb_movies <span class="op">=</span> tdb.table(<span class="st">&quot;movies&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tdb_people <span class="op">=</span> tdb.table(<span class="st">&quot;people&quot;</span>)</span></code></pre></div>
 <p>Every query below this point assumes the 5 lines of Python above, importing the library and declaring the table variables, have already been run in your script or interpreter.</p>
 <h3 id="document-schemas">Document schemas?</h3>
 <p>The best way to see what these tables contain is to look at a document from each of them. After all, there is no fixed schema, just the documents!</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="op">&gt;</span> tdb_people.get(doc_id<span class="op">=</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000002&#39;</span>,</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"> <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Lauren Bacall&#39;</span>,</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"> <span class="st">&#39;birthyear&#39;</span>: <span class="dv">1924</span>,</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"> <span class="st">&#39;deathyear&#39;</span>: <span class="dv">2014</span>,</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"> <span class="st">&#39;acted_in&#39;</span>: [{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0276919&#39;</span>,</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">               <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Dogville&#39;</span>,</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">               <span class="st">&#39;year&#39;</span>: <span class="dv">2003</span>,</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">               <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Ma Ginger&#39;</span>]}]}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> tdb_people.get(doc_id<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000002&#39;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Lauren Bacall&#39;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;birthyear&#39;</span>: <span class="dv">1924</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;deathyear&#39;</span>: <span class="dv">2014</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;acted_in&#39;</span>: [{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0100157&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Misery&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Marcia Sindell&#39;</span>], <span class="st">&#39;year&#39;</span>: <span class="dv">1990</span>},</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0276919&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Dogville&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Ma Ginger&#39;</span>], <span class="st">&#39;year&#39;</span>: <span class="dv">2003</span>}]}</span></code></pre></div>
 <p>This is a Python dictionary (not quite JSON, note the single-quotes) representing a person JSON document. It has the same attributes as the relational <code>people</code> table; <code>person_id</code>, <code>name</code>, <code>birthyear</code>, <code>deathyear</code>. However, it has additional attributes too; we have de-normalised the data and collected everything about this person into a single object. We now have an additional <code>acted_in</code> attribute, that contains a list of the movies the person has acted in and the roles they played.</p>
 <p>What about someone who never acted, but only directed?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="op">&gt;</span> tdb_people.get(doc_id<span class="op">=</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000005&#39;</span>,</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"> <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Ingmar Bergman&#39;</span>,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"> <span class="st">&#39;birthyear&#39;</span>: <span class="dv">1918</span>,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"> <span class="st">&#39;deathyear&#39;</span>: <span class="dv">2007</span>,</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"> <span class="st">&#39;directed&#39;</span>: [{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0050976&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;The Seventh Seal&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1957</span>},</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0050986&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Wild Strawberries&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1957</span>},</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0060827&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Persona&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1966</span>}]}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> tdb_people.get(doc_id<span class="op">=</span><span class="dv">21</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000033&#39;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Alfred Hitchcock&#39;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;birthyear&#39;</span>: <span class="dv">1899</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;deathyear&#39;</span>: <span class="dv">1980</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;directed&#39;</span>: [{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0032976&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Rebecca&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1940</span>},</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0046912&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Dial M for Murder&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1954</span>},</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0047396&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Rear Window&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1954</span>},</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0052357&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Vertigo&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1958</span>},</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0053125&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;North by Northwest&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1959</span>},</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0054215&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Psycho&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1960</span>},</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>              {<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0056869&#39;</span>, <span class="st">&#39;title&#39;</span>: <span class="st">&#39;The Birds&#39;</span>, <span class="st">&#39;year&#39;</span>: <span class="dv">1963</span>}]}</span></code></pre></div>
 <p>This time we don’t have an <code>acted_in</code> attribute but a <code>directed</code> attribute instead. Our people documents do not have to have a fixed schema, we can exclude attributes that aren’t relevant. The possible attributes for the positions people had are <code>acted_in</code>, <code>directed</code>, <code>produced</code>, <code>wrote</code>, and <code>composed_for</code>. Inside each is a list of movie objects that contain the <code>movie_id</code>, <code>title</code>, <code>year</code> and may contain <code>job</code> information. Someone who acted and directed would have both <code>acted_in</code> and <code>directed</code> attributes, for example.</p>
 <p>Document databases have no required schema, so there’s nothing to stop documents representing people using <code>birthyear</code> sometimes, <code>birthYear</code> other times, and <code>birth_year</code> elsewhere. In Python, attributes are normally named in <code>snake_case</code>, but in JSON they are often in <code>camelCase</code> due to JavaScript. In this database attributes have consistent names, chosen to be the same as the relational attributes, but are absent when unknown or irrelevant. There is also nothing to stop us from adding a movie document to the people table, either deliberately or accidentally; the table names are for logical grouping, but they don’t enforce anything!</p>
 <p>In general, with a schemaless document database system, it is up to the application using it to impose some sort of structure on the documents it stores. Since it turned out that most of the time at least a loose structure to documents is desired, most modern document databases allow some form of schema validation to prevent mistakes.</p>
 <p>These notes aside, what about documents in the <code>movies</code> table?</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="op">&gt;</span> tdb_movies.get(doc_id<span class="op">=</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0012349&#39;</span>,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"> <span class="st">&#39;title&#39;</span>: <span class="st">&#39;The Kid&#39;</span>,</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"> <span class="st">&#39;year&#39;</span>: <span class="dv">1921</span>,</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"> <span class="st">&#39;type&#39;</span>: <span class="st">&#39;movie&#39;</span>,</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"> <span class="st">&#39;minutes&#39;</span>: <span class="dv">68</span>,</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"> <span class="st">&#39;genres&#39;</span>: [<span class="st">&#39;Comedy&#39;</span>, <span class="st">&#39;Drama&#39;</span>, <span class="st">&#39;Family&#39;</span>],</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"> <span class="st">&#39;rating&#39;</span>: <span class="fl">8.3</span>,</a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"> <span class="st">&#39;rating_votes&#39;</span>: <span class="dv">130363</span>,</a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"> <span class="st">&#39;actors&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0088471&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;B.F. Blinn&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;His Assistant&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-11" data-line-number="11">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000122&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Charles Chaplin&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;A Tramp&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-12" data-line-number="12">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0701012&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Edna Purviance&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;The Woman&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-13" data-line-number="13">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0001067&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Jackie Coogan&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;The Child&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0588033&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Carl Miller&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;The Man&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-15" data-line-number="15">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0042317&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Albert Austin&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Car Thief&#39;</span>, <span class="st">&#39;Man in Shelter&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-16" data-line-number="16">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0047800&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Beulah Bains&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Bride&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-17" data-line-number="17">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0048798&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Nellie Bly Baker&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Slum Nurse&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-18" data-line-number="18">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0074788&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Henry Bergman&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Professor Guido&#39;</span>, <span class="st">&#39;Night Shelter Keeper&#39;</span>]},</a>
-<a class="sourceLine" id="cb6-19" data-line-number="19">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0080930&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Edward Biby&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Orphan Asylum Driver&#39;</span>]}]}</a></code></pre></div>
-<p>We can see that it again has attributes much like the relational <code>movies</code> table did: <code>movie_id</code>, <code>title</code>, <code>type</code>, <code>minutes</code>. Additionally, the genres associated with the movie are stored as a list by name in the <code>genres</code> key. The actors and the roles they play are also stored as objects in the <code>actors</code> key. If the movie had director information, they would be listed under <code>directors</code>; likewise with <code>producers</code>, <code>writers</code> and <code>composers</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> tdb_movies.get(doc_id<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0012349&#39;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;title&#39;</span>: <span class="st">&#39;The Kid&#39;</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;type&#39;</span>: <span class="st">&#39;movie&#39;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;year&#39;</span>: <span class="dv">1921</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;genres&#39;</span>: [<span class="st">&#39;Comedy&#39;</span>, <span class="st">&#39;Drama&#39;</span>, <span class="st">&#39;Family&#39;</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;minutes&#39;</span>: <span class="dv">68</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;rating&#39;</span>: <span class="fl">8.2</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;rating_votes&#39;</span>: <span class="dv">142991</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;actors&#39;</span>: [{<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Charles Chaplin&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000122&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;A Tramp&#39;</span>]},</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Edna Purviance&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0701012&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;The Woman&#39;</span>]},</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Jackie Coogan&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0001067&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;The Child&#39;</span>]},</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Carl Miller&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0588033&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;The Man&#39;</span>]},</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Albert Austin&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0042317&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Car Thief&#39;</span>, <span class="st">&#39;Man in Shelter&#39;</span>]},</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Beulah Bains&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0047800&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Bride&#39;</span>]},</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Nellie Bly Baker&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0048798&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Slum Nurse&#39;</span>]},</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Henry Bergman&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0074788&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Professor Guido&#39;</span>, <span class="st">&#39;Night Shelter Keeper&#39;</span>]},</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;Edward Biby&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0080930&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Orphan Asylum Driver&#39;</span>]},</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;name&#39;</span>: <span class="st">&#39;B.F. Blinn&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0088471&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;His Assistant&#39;</span>]}],</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;directors&#39;</span>: [{<span class="st">&#39;job&#39;</span>: <span class="st">&#39;director&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Charles Chaplin&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000122&#39;</span>}],</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;producers&#39;</span>: [{<span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Charles Chaplin&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000122&#39;</span>}],</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;writers&#39;</span>: [{<span class="st">&#39;job&#39;</span>: <span class="st">&#39;written by&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Charles Chaplin&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000122&#39;</span>}],</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;composers&#39;</span>: [{<span class="st">&#39;job&#39;</span>: <span class="st">&#39;composer&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Charles Chaplin&#39;</span>, <span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000122&#39;</span>}],</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;trivia_entries&#39;</span>: [...]}</span></code></pre></div>
+<p>We can see that it again has attributes much like the relational <code>movies</code> table did: <code>movie_id</code>, <code>title</code>, <code>type</code>, <code>minutes</code>. Additionally, the genres associated with the movie are stored as a list by name in the <code>genres</code> key. The actors and the roles they play are also stored as objects in the <code>actors</code> key; likewise with <code>directors</code>, <code>producers</code>, <code>writers</code> and <code>composers</code>. Movies may not have all of these keys.</p>
 <p>We don’t need to use <code>null</code> values in our JSON documents, we can just exclude the key entirely. There is a lot of duplication and redundancy in this document format; the same movie titles and people’s names occur in many different documents. For a dataset like historic movie data, this is unlikely to be an issue; in the film industry people rarely change their professional name and movies are unlikely to be renamed. In other use-cases, this redundancy might present more challenges.</p>
 <h3 id="basic-searches">Basic searches</h3>
 <p>Since the <code>doc_id</code> values are meaningless to us, we need to query for documents of interest. There are two equivalent ways of building TinyDB queries, and you can <a href="https://tinydb.readthedocs.io/en/latest/usage.html#queries">read the TinyDB documentation</a> for full details if you wish. We will use the <code>Query()</code> approach in this tutorial.</p>
 <h4 id="getting-a-single-document">Getting a single document</h4>
 <p>Say we remembered from the relational tutorial that the ‘Barbie’ movie ID was <code>tt1517268</code>. If we want just one document from a table, we can use the <code>.get(...)</code> method on the table object, with a query:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" data-line-number="1">m <span class="op">=</span> Query()</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">tdb_movies.get(m.movie_id <span class="op">==</span> <span class="st">&#39;tt1517268&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> Query()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tdb_movies.get(m.movie_id <span class="op">==</span> <span class="st">&#39;tt1517268&#39;</span>)</span></code></pre></div>
 <p>This returns the ‘Barbie’ movie document:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" data-line-number="1">{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt1517268&#39;</span>,</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"> <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Barbie&#39;</span>,</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"> <span class="st">&#39;year&#39;</span>: <span class="dv">2023</span>,</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"> <span class="st">&#39;type&#39;</span>: <span class="st">&#39;movie&#39;</span>,</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"> <span class="st">&#39;minutes&#39;</span>: <span class="dv">114</span>,</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"> <span class="st">&#39;genres&#39;</span>: [<span class="st">&#39;Adventure&#39;</span>, <span class="st">&#39;Comedy&#39;</span>, <span class="st">&#39;Fantasy&#39;</span>],</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"> <span class="st">&#39;rating&#39;</span>: <span class="fl">7.5</span>,</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"> <span class="st">&#39;rating_votes&#39;</span>: <span class="dv">98056</span>,</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"> <span class="st">&#39;actors&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3053338&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Margot Robbie&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0331516&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Ryan Gosling&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Ken&#39;</span>]},</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm4793987&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Issa Rae&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0571952&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Kate McKinnon&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]}],</a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"> <span class="st">&#39;directors&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm1950086&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Greta Gerwig&#39;</span>}],</a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"> <span class="st">&#39;producers&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3943537&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Tom Ackerley&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>},</a>
-<a class="sourceLine" id="cb8-15" data-line-number="15">               {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0107509&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Robbie Brenner&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>},</a>
-<a class="sourceLine" id="cb8-16" data-line-number="16">               {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0382268&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;David Heyman&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>}],</a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"> <span class="st">&#39;writers&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000876&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Noah Baumbach&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;written by&#39;</span>}],</a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"> <span class="st">&#39;composers&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm1053148&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Mark Ronson&#39;</span>}]}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt1517268&#39;</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Barbie&#39;</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;type&#39;</span>: <span class="st">&#39;movie&#39;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;year&#39;</span>: <span class="dv">2023</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;genres&#39;</span>: [<span class="st">&#39;Adventure&#39;</span>, <span class="st">&#39;Comedy&#39;</span>, <span class="st">&#39;Fantasy&#39;</span>],</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;minutes&#39;</span>: <span class="dv">114</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;rating&#39;</span>: <span class="fl">6.8</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;rating_votes&#39;</span>: <span class="dv">625996</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;actors&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3053338&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Margot Robbie&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0331516&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Ryan Gosling&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Ken&#39;</span>]},</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm4793987&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Issa Rae&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0571952&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Kate McKinnon&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Weird Barbie&#39;</span>]},</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3381295&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Alexandra Shipp&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm8076281&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Emma Mackey&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm6341515&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Hari Nef&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm5287110&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Sharon Rooney&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm2474626&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Ana Cruz Kayne&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]},</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>            {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm5709125&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Ritu Arya&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Journalist Barbie&#39;</span>]}],</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;directors&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm1950086&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Greta Gerwig&#39;</span>}],</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;producers&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3943537&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Tom Ackerley&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>},</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>               {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0107509&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Robbie Brenner&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>},</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>               {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0382268&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;David Heyman&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>},</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>               {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3053338&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Margot Robbie&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;producer&#39;</span>}],</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;writers&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm1950086&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Greta Gerwig&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;written by&#39;</span>},</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>             {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm0000876&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Noah Baumbach&#39;</span>, <span class="st">&#39;job&#39;</span>: <span class="st">&#39;written by&#39;</span>}],</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;composers&#39;</span>: [{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm1053148&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Mark Ronson&#39;</span>},</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>               {<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm1961278&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Andrew Wyatt&#39;</span>}],</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a> <span class="st">&#39;trivia_entries&#39;</span>: [...]}</span></code></pre></div>
 <p>We can also use the “fragment” approach, to find a document which contains the fragment provided:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" data-line-number="1"> tdb_movies.get(Query().fragment({<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt1517268&#39;</span>}))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a> tdb_movies.get(Query().fragment({<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt1517268&#39;</span>}))</span></code></pre></div>
 <p>This returns the same document as before. Notice that we don’t have to make the <code>Query</code> object separately, we can just use it inline.</p>
 <p>Once we have a document, we can access attributes of it as with any Python dictionary:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="op">&gt;</span> barbie <span class="op">=</span> tdb_movies.get(Query().movie_id <span class="op">==</span> <span class="st">&#39;tt1517268&#39;</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="op">&gt;</span> <span class="co"># Use square brackets, may raise KeyError if document missing this attribute:</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="op">&gt;</span> barbie[<span class="st">&quot;title&quot;</span>]</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">&#39;Barbie&#39;</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="op">&gt;</span> <span class="co"># Or equivalently use the &quot;get&quot; method, which will return None if missing:</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="op">&gt;</span> barbie.get(<span class="st">&quot;year&quot;</span>)</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="dv">2023</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="op">&gt;</span> barbie[<span class="st">&quot;actors&quot;</span>][<span class="dv">0</span>]</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3053338&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Margot Robbie&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]}</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> barbie <span class="op">=</span> tdb_movies.get(Query().movie_id <span class="op">==</span> <span class="st">&#39;tt1517268&#39;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="co"># Use square brackets, may raise KeyError if document missing this attribute:</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> barbie[<span class="st">&quot;title&quot;</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;Barbie&#39;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="co"># Or equivalently use the &quot;get&quot; method, which will return None if missing:</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> barbie.get(<span class="st">&quot;year&quot;</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="dv">2023</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> barbie[<span class="st">&quot;actors&quot;</span>][<span class="dv">0</span>]</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>{<span class="st">&#39;person_id&#39;</span>: <span class="st">&#39;nm3053338&#39;</span>, <span class="st">&#39;name&#39;</span>: <span class="st">&#39;Margot Robbie&#39;</span>, <span class="st">&#39;roles&#39;</span>: [<span class="st">&#39;Barbie&#39;</span>]}</span></code></pre></div>
 <h4 id="finding-multiple-documents">Finding multiple documents</h4>
 <p>Often we will want to find multiple documents that match some criteria. We can use the table’s <code>.search(...)</code> method to achieve this. To get a list of all movies created after 2021:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb11-1" data-line-number="1">tdb_movies.search(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb12-1" data-line-number="1">[{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0439572&#39;</span>,</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="st">&#39;title&#39;</span>: <span class="st">&#39;The Flash&#39;</span>,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="st">&#39;year&#39;</span>: <span class="dv">2023</span>,</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="co"># ...</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  },</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"> <span class="co"># and 99 more movies . . .</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"> ]</a></code></pre></div>
-<p>TinyDB doesn’t offer any limiting or sorting; at the end of the day it runs in-memory on the machine running the query, so any limiting or sorting can be done by the user directly. If we want to sort by most recent by <code>year</code>, we can do it directly with Python’s built-in <code>sorted</code> function. The <code>sorted</code> method can take a <code>key</code> function that decides what attribute(s) of an object to sort on:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="bu">sorted</span>(tdb_movies.search(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>), key<span class="op">=</span><span class="kw">lambda</span> m: m.get(<span class="st">&quot;year&quot;</span>), reverse<span class="op">=</span><span class="va">True</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.search(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[{<span class="st">&#39;movie_id&#39;</span>: <span class="st">&#39;tt0293429&#39;</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;title&#39;</span>: <span class="st">&#39;Mortal Kombat&#39;</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;year&#39;</span>: <span class="dv">2021</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a> <span class="co"># and 382 more movies . . .</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a> ]</span></code></pre></div>
+<p>TinyDB doesn’t offer any limiting or sorting; it runs in-memory on the machine running the query, so any limiting or sorting can be done by the user directly without unnecessary data transfer or loading. Full-featured document databases do usually support sorting and limiting, because they use a client-server model where transferring data that would be filtered out comes with a cost.</p>
+<p>If we want to sort by most recent by <code>year</code>, we can do it directly with Python’s built-in <code>sorted</code> function. The <code>sorted</code> method can take a <code>key</code> function that decides what attribute(s) of an object to sort on:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(tdb_movies.search(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>), key<span class="op">=</span><span class="kw">lambda</span> m: m.get(<span class="st">&quot;year&quot;</span>), reverse<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 <p>We could also limit it to only 10 of these movies using Python’s list slicing:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="bu">sorted</span>(tdb_movies.search(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>), key<span class="op">=</span><span class="kw">lambda</span> m: m.get(<span class="st">&quot;year&quot;</span>), reverse<span class="op">=</span><span class="va">True</span>)[:<span class="dv">10</span>]</a></code></pre></div>
-<p>Full-featured document databases do usually support sorting and limiting, because they use a client-server model where transferring unnecessary data comes with a cost.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(tdb_movies.search(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>), key<span class="op">=</span><span class="kw">lambda</span> m: m.get(<span class="st">&quot;year&quot;</span>), reverse<span class="op">=</span><span class="va">True</span>)[:<span class="dv">10</span>]</span></code></pre></div>
 <h4 id="counting-results">Counting results</h4>
 <p>Rather than a list of all the matching documents, we may just want to know how many of them there are. Instead of <code>.search(...)</code>, we can use <code>.count(...)</code> with exactly the same query arguments.</p>
-<p>How many movies are there created after 2021?</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb15-1" data-line-number="1">tdb_movies.count(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>)</a></code></pre></div>
-<p>This returns <code>100</code>.</p>
+<p>How many movies are there created since 2021?</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().year <span class="op">&gt;=</span> <span class="dv">2021</span>)</span></code></pre></div>
+<p>This returns <code>383</code>.</p>
 <p>Subsequent examples will use <code>count</code> rather than <code>search</code>, to reduce the amount of output printed. You can always simply swap to <code>search</code> to see the full list. You could also use the relational database as a way of checking that the result numbers are correct.</p>
 <h4 id="other-types-of-conditions">Other types of conditions</h4>
 <p>We’ve seen how to match an attribute exactly, and we’ve seen how to do numeric range searches. TinyDB supports other search conditions too.</p>
 <p>If we want to find movies whose titles start with “Star”, we can use <code>.matches(...)</code> with a regular expression. This is more powerful than the SQL <code>LIKE</code> clause supported by SQLite (though many other relational DBMSes do support regular expressions). The regex pattern <code>.*</code> matches any character any number of times, so is equivalent to the <code>%</code> of SQL <code>LIKE</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb16-1" data-line-number="1">tdb_movies.count(Query().title.matches(<span class="st">&quot;Star .*&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().title.matches(<span class="st">&quot;Star .*&quot;</span>))</span></code></pre></div>
 <p>What about finding a movie with a specific genre? Recall that the <code>genres</code> attribute for movies is a list of genre names. We can do an “any” match on a list attribute to require any element to match the one(s) provided. To find all “War” films:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb17-1" data-line-number="1">tdb_movies.count(Query().genres.<span class="bu">any</span>([<span class="st">&#39;War&#39;</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().genres.<span class="bu">any</span>([<span class="st">&#39;War&#39;</span>]))</span></code></pre></div>
 <p>We can also do an “all” match on a list attribute, to require that all the items provided are contained in the list. To find all rom-coms, we can simply do:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb18-1" data-line-number="1">tdb_movies.count(Query().genres.<span class="bu">all</span>([<span class="st">&#39;Romance&#39;</span>, <span class="st">&#39;Comedy&#39;</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().genres.<span class="bu">all</span>([<span class="st">&#39;Romance&#39;</span>, <span class="st">&#39;Comedy&#39;</span>]))</span></code></pre></div>
 <p>Compare this to the SQL it took to compute the same list; the de-normalisation of the data makes some things much easier.</p>
 <p>If the objects in the list are more complex, we can provide another <code>Query()</code> that operates on the sub-documents in that list. To find all movies directed by Steven Spielberg, we can do:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb19-1" data-line-number="1">tdb_movies.count(Query().directors.<span class="bu">any</span>(Query().name <span class="op">==</span> <span class="st">&#39;Steven Spielberg&#39;</span>))</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co"># Or we could name the Query objects for readability:</span></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">movie <span class="op">=</span> Query()</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">director <span class="op">=</span> Query()</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6">tdb_movies.count(movie.directors.<span class="bu">any</span>(director.name <span class="op">==</span> <span class="st">&#39;Steven Spielberg&#39;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().directors.<span class="bu">any</span>(Query().name <span class="op">==</span> <span class="st">&#39;Steven Spielberg&#39;</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Or we could name the Query objects for readability:</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>movie <span class="op">=</span> Query()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>director <span class="op">=</span> Query()</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(movie.directors.<span class="bu">any</span>(director.name <span class="op">==</span> <span class="st">&#39;Steven Spielberg&#39;</span>))</span></code></pre></div>
 <p>If instead we want to match if a non-list attribute is one of a list of known values, we can use <code>one_of(...)</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb20-1" data-line-number="1">tdb_movies.count(Query().movie_id.one_of([<span class="st">&quot;tt4975722&quot;</span>, <span class="st">&quot;tt3169706&quot;</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().movie_id.one_of([<span class="st">&quot;tt4975722&quot;</span>, <span class="st">&quot;tt3169706&quot;</span>]))</span></code></pre></div>
 <p>It might also be enough to know that an attribute exists on an object. Since only composers have an <code>composed_for</code> attribute, we can quickly find everyone who has composed for a movie using the <code>exists</code> predicate. We don’t care what values are in the attribute, just that the key exists. (Of course, this makes assumptions about the non-empty nature of the <code>composed_for</code> list, but we can check this).</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb21-1" data-line-number="1">tdb_people.count(Query().composed_for.exists())</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co"># Check this gives same result as requiring at least one movie in the list:</span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4">tdb_people.count(Query().composed_for.<span class="bu">any</span>(Query().noop()))</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tdb_people.count(Query().composed_for.exists())</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check this gives same result as requiring at least one movie in the list:</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>tdb_people.count(Query().composed_for.<span class="bu">any</span>(Query().noop()))</span></code></pre></div>
 <p>Here we used <code>Query().noop()</code>, which always matches every document!</p>
 <p>Sometimes the check you want to do on the attribute contents is even more complicated. You can use <code>.test(...)</code> to provide an arbitrary function which returns True if the document should be matched. Here we find movies with at least 5 actors:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb22-1" data-line-number="1">tdb_movies.count(Query().actors.test(<span class="kw">lambda</span> actor_list: <span class="bu">len</span>(actor_list) <span class="op">&gt;=</span> <span class="dv">5</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().actors.test(<span class="kw">lambda</span> actor_list: <span class="bu">len</span>(actor_list) <span class="op">&gt;=</span> <span class="dv">5</span>))</span></code></pre></div>
 <h4 id="combining-conditions">Combining conditions</h4>
 <p>Often, the conditions we want to search on are more complicated than a single value. TinyDB allows the combining of query conditions using the Python bitwise “and”, “or” and “not” operators (<code>&amp;</code>, <code>|</code> and <code>~</code> respectively). This comes with a caveat; these operators bind more tightly than equals and other comparisons, so each query condition <strong>must</strong> be wrapped in brackets first.</p>
 <p>As in the relational tutorial, to find movies of type ‘movie’ and made since 2013:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb23-1" data-line-number="1">tdb_movies.count((Query().year <span class="op">&gt;=</span> <span class="dv">2013</span>) <span class="op">&amp;</span> (Query().<span class="bu">type</span> <span class="op">==</span> <span class="st">&#39;movie&#39;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count((Query().year <span class="op">&gt;=</span> <span class="dv">2013</span>) <span class="op">&amp;</span> (Query().<span class="bu">type</span> <span class="op">==</span> <span class="st">&#39;movie&#39;</span>))</span></code></pre></div>
 <p>To find people who have never acted:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb24-1" data-line-number="1">tdb_people.count(<span class="op">~</span>(Query().acted_in.exists()))</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tdb_people.count(<span class="op">~</span>(Query().acted_in.exists()))</span></code></pre></div>
 <p>You can combine conditions arbitrarily using these operators to perform really complex filtering.</p>
 <h3 id="some-limitations">Some limitations</h3>
 <p>Whilst the lack of sorting and ability to restrict the number of results are limitations only of TinyDB, document databases do have other limitations compared to the relational examples we saw before.</p>
@@ -250,28 +422,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It might seem obvious, but document databases don’t support anything like relational join operations when searching for documents. Instead, when creating the database and adding documents, we have to de-normalise the data ourselves. The movies documents contain the genres, cast and crew data that would be obtained by joining in the relational database.</p>
 <p>Consider trying to find movies with non-unique titles. Document databases don’t allow you to directly compare documents to each other. That action is fundamentally the same thing as joining a table to itself.</p>
 <p>The following query looks at first glance like it might do what we want:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># These names will prove to be misleading:</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">m1 <span class="op">=</span> Query()</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">m2 <span class="op">=</span> Query()</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co"># This demonstrates a fundamental misunderstanding in how querying works!</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">tdb_movies.count((m1.title <span class="op">==</span> m2.title) <span class="op">&amp;</span> (m1.movie_id <span class="op">&lt;</span> m2.movie_id))</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These names will prove to be misleading:</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="op">=</span> Query()</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="op">=</span> Query()</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This demonstrates a fundamental misunderstanding in how querying works!</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>tdb_movies.count((m1.title <span class="op">==</span> m2.title) <span class="op">&amp;</span> (m1.movie_id <span class="op">&lt;</span> m2.movie_id))</span></code></pre></div>
 <p>The way the <code>Query()</code> objects are named here is just confusing. When searching for documents, the query is tested against each document individually. It describes what form the documents we want to match must have; we cannot <strong>compare</strong> to other documents, both <code>m1</code> and <code>m2</code> refer to the same document when testing the condition. (And the <code>Query()</code> object behaves strangely when you compare it to itself, rather than a constant, as done here!).</p>
 <p>How might we do it ourselves in TinyDB? We could write a <code>.test(...)</code> function that itself queries to find out how many movies there are with that title, and only includes the row if there is more than one:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># </span><span class="al">WARNING</span><span class="co">! This is _exceptionally_ slow and may hang your interpreter for some time!</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">tdb_movies.count(Query().title.test(<span class="kw">lambda</span> t: tdb_movies.count(Query().title <span class="op">==</span> t) <span class="op">&gt;</span> <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">! This is _exceptionally_ slow and may hang your interpreter for some time!</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().title.test(<span class="kw">lambda</span> t: tdb_movies.count(Query().title <span class="op">==</span> t) <span class="op">&gt;</span> <span class="dv">1</span>))</span></code></pre></div>
 <p>Whilst this does work correctly, it is incredibly inefficient. It will help to have a model about how TinyDB works under the hood. All the query methods simply iterate over every document in the table and evaluate the condition on each document in turn. So our test function loops over every movie and checks the title, then counts those that match. We then run this function once per movie! In terms of complexity, we have made something at least O(n^2) in the number of movies.</p>
 <p>It is possible to iterate through all the movies ourselves. The table object can be used as an iterator and we can collect the documents by title and then filter them ourselves:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb27-1" data-line-number="1">titles <span class="op">=</span> <span class="bu">dict</span>()</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="cf">for</span> movie_doc <span class="kw">in</span> tdb_movies:</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">    title <span class="op">=</span> movie_doc[<span class="st">&quot;title&quot;</span>]</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">    <span class="cf">if</span> title <span class="kw">not</span> <span class="kw">in</span> titles:</a>
-<a class="sourceLine" id="cb27-5" data-line-number="5">        titles[title] <span class="op">=</span> []</a>
-<a class="sourceLine" id="cb27-6" data-line-number="6">    titles[title].append(movie_doc)</a>
-<a class="sourceLine" id="cb27-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb27-8" data-line-number="8">matched_movie_docs <span class="op">=</span> []</a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="cf">for</span> title, movie_list <span class="kw">in</span> titles.items():</a>
-<a class="sourceLine" id="cb27-10" data-line-number="10">    <span class="cf">if</span> <span class="bu">len</span>(movie_list) <span class="op">&gt;</span> <span class="dv">1</span>:</a>
-<a class="sourceLine" id="cb27-11" data-line-number="11">        matched_movie_docs.extend(movie_list)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>titles <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> movie_doc <span class="kw">in</span> tdb_movies:</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> movie_doc[<span class="st">&quot;title&quot;</span>]</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> title <span class="kw">not</span> <span class="kw">in</span> titles:</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        titles[title] <span class="op">=</span> []</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    titles[title].append(movie_doc)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>matched_movie_docs <span class="op">=</span> []</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> title, movie_list <span class="kw">in</span> titles.items():</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(movie_list) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        matched_movie_docs.extend(movie_list)</span></code></pre></div>
 <p>There are many other valid ways of doing this, but at least this approach is better than O(n^2) in the number of movies.</p>
 <h4 id="aggregation">Aggregation</h4>
 <p>TinyDB has no support for aggregation of any kind. If we wanted to know how many movies were made each year, we would have to do so ourselves. MongoDB, a large commercial document database with a much richer feature set, does support aggregation queries. They work in a similar way to SQL, except you have to say <em>how</em> to turn the documents into groups; in SQL you simply declare the output you want. In MongoDB you first need to project out the bits of the documents you are interested in, then define how to group, and then produce counts/aggregate statistics or output.</p>
@@ -279,20 +451,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="trivia-data">Trivia data</h3>
 <p>Unlike the relational or graph databases, the document database contains additional trivia information for each movie.</p>
 <p>The trivia data is a list of strings, under the key <code>trivia_entries</code>, up to 5 for each movie:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb28-1" data-line-number="1">tdb_movies.get(Query().movie_id <span class="op">==</span> <span class="st">&#39;tt1160419&#39;</span>)[<span class="st">&quot;trivia_entries&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.get(Query().movie_id <span class="op">==</span> <span class="st">&#39;tt1160419&#39;</span>)[<span class="st">&quot;trivia_entries&quot;</span>]</span></code></pre></div>
 <p>The trivia entries are not sub-documents, so we can’t search them using TinyDB’s Query methods. But it is possible to search them using the <code>.test(...)</code> method. For example, to find movies with trivia that mentions computer hackers, remembering that trivia entries are a list of strings:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb29-1" data-line-number="1">tdb_movies.count(Query().trivia_entries.test(<span class="kw">lambda</span> entries: <span class="bu">any</span>([<span class="st">&quot; hacker &quot;</span> <span class="kw">in</span> t <span class="cf">for</span> t <span class="kw">in</span> entries])))</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().trivia_entries.test(<span class="kw">lambda</span> entries: <span class="bu">any</span>([<span class="st">&quot; hacker &quot;</span> <span class="kw">in</span> t <span class="cf">for</span> t <span class="kw">in</span> entries])))</span></code></pre></div>
 <p>This use’s Python’s list comprehension syntax, but another way would be to just join all the trivia items together:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb30-1" data-line-number="1">tdb_movies.count(Query().trivia_entries.test(<span class="kw">lambda</span> trivia: <span class="st">&quot; hacker &quot;</span> <span class="kw">in</span> <span class="st">&quot; &quot;</span>.join(trivia)))</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tdb_movies.count(Query().trivia_entries.test(<span class="kw">lambda</span> trivia: <span class="st">&quot; hacker &quot;</span> <span class="kw">in</span> <span class="st">&quot; &quot;</span>.join(trivia)))</span></code></pre></div>
 <p>Finally, we could iterate over all the movies directly ourselves:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb31-1" data-line-number="1">matched_movies <span class="op">=</span> []</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="cf">for</span> movie_doc <span class="kw">in</span> tdb_movies:</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3">    trivia_entries <span class="op">=</span> movie_doc[<span class="st">&quot;trivia_entries&quot;</span>]</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4">    <span class="cf">for</span> trivia_entry <span class="kw">in</span> trivia_entries:</a>
-<a class="sourceLine" id="cb31-5" data-line-number="5">        <span class="cf">if</span> <span class="st">&quot; hacker &quot;</span> <span class="kw">in</span> trivia_entry:</a>
-<a class="sourceLine" id="cb31-6" data-line-number="6">            matched_movies.append(movie_doc)</a>
-<a class="sourceLine" id="cb31-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="bu">print</span>(<span class="bu">len</span>(matched_movies))</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>matched_movies <span class="op">=</span> []</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> movie_doc <span class="kw">in</span> tdb_movies:</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    trivia_entries <span class="op">=</span> movie_doc[<span class="st">&quot;trivia_entries&quot;</span>]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trivia_entry <span class="kw">in</span> trivia_entries:</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">&quot; hacker &quot;</span> <span class="kw">in</span> trivia_entry:</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>            matched_movies.append(movie_doc)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(matched_movies))</span></code></pre></div>
 <p>These will return matches in some arbitrary order; multiple occurrences of the term in the trivia entries, which might indicate a ‘better’ match, will not affect order. TinyDB also doesn’t have support for common text operations like stemming (matching “hack”, “hacking”, “hacked”, “hackers”, etc by truncating all of these to “hack”) or fuzzy-matching (e.g. matching “python” when “pyhton” was entered). Some systems like ElasticSearch, which is based on Apache Lucene, do have powerful text searching functionality which includes both the fuzzy matching and result ordering based on occurrence frequency. Other document databases, like MongoDB, have varying levels of text search functionality. Whilst ElasticSearch can store JSON documents and act like a NoSQL database, it describes itself as a “search engine” rather than a document database due to this focus on text search.</p>
 </body>
 </html>

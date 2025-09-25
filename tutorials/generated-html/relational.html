@@ -1,87 +1,245 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html>
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>relational</title>
+  <title>Relational Database Tutorial</title>
   <style>
-      body{ width: min(98%, 1000px); margin: 0 auto; padding: 1ex; } /* This line makes it a narrow column */
-  </style>
-  <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code { white-space: pre; position: relative; background-color: #fafafa; padding: 2px; border-radius: 3px; }
-div.sourceCode { margin: 1em 0; }
-pre { margin: 0; background-color: #fafafa; padding: 1ex; border-radius: 3px; line-height: 1.1rem; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #666666; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 120ex;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 </head>
 <body>
 <h1 id="relational-database">Relational Database</h1>
 <h2 id="introduction">Introduction</h2>
-<p>This tutorial is designed to get you started with our relational database and ready to complete the relational Tick. We’ll be using a database of films, cast and crew information from the <a href="https://developer.imdb.com/non-commercial-datasets/">Internet Movie Database (IMDb)</a>. From here we’ll use ‘movie’, instead of ‘film’, for consistency. The dataset from IMDb is not complete; it contains only ~10 people per movie, and only ~3 genres per movie – but this will be enough for our purposes. It may mean that cast members you expect to see on a movie are missing, or links between movies you expect to find don’t exist.</p>
+<p>This tutorial is designed to get you started with our relational database and ready to complete the relational Tick. We’ll be using a database of films, cast and crew information from the <a href="https://developer.imdb.com/non-commercial-datasets/">Internet Movie Database (IMDb)</a>. From here we’ll use ‘movie’, instead of ‘film’, for consistency. The dataset from IMDb is not complete; it doesn’t list every person associated with a movie, and only ~3 lists genres per movie – but this will be enough for our purposes. It may mean that cast members you expect to see on a movie are missing, or links between movies you expect to find don’t exist. We’ve also limited it to a few thousand movies.</p>
 <p>Our relation database management system (DBMS) will be <a href="https://www.sqlite.org/index.html">SQLite</a>, a popular open-source format chosen for its simplicity. Unlike other mainstream database systems, such as <a href="https://www.postgresql.org/">PostgreSQL</a> or <a href="https://mariadb.org/">MariaDB</a>, it does not use a client-server model. SQLite uses a single file to store the database and does not support multiple concurrent users. SQLite is widely used in mobile operating systems; iOS and Android both use SQLite databases extensively under the hood. All your text messages, WhatsApp and Signal chats will be stored in SQLite databases on your device, for example.</p>
 <p>Like other relational databases, SQLite uses <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> as the query language. SQL is an evolving language, vast in its scope. SQL is standardised, but many database vendors use their own variations in syntax and keywords. Whilst this tutorial will focus on SQLite, the syntax we will cover should be common to all SQL databases unless noted.</p>
 <h2 id="installation">Installation</h2>
@@ -98,7 +256,7 @@ sqlite&gt;
 sqlite&gt; SELECT 1;
 1</code></pre>
 <p>(Make sure you use <code>sqlite3</code> and not <code>sqlite</code> if you have both installed; we’re using SQLite version 3, the previous version is very old!).</p>
-<p>This SQLite tool supports some meta-commands that are not SQL; these start with a <code>.</code> and are about managing the database system and not the data. You might want to run <code>.mode column</code> first of all, to change the output format to include column titles and pretty-print the results. There are other output modes (including <code>table</code>, <code>csv</code>, and even <code>json</code>) which you can explore. You may also want to choose a different value to represent <code>NULL</code>; by default whitespace is used, but you can change it using <code>.nullvalue</code>, e.g. <code>.nullvalue &lt;null&gt;</code> to use the string <code>&lt;null&gt;</code>.</p>
+<p>This SQLite tool supports some meta-commands that are not SQL; these start with a <code>.</code> and are about managing the database system and not the data. You might want to run <code>.mode column</code> first of all, to change the output format to include column titles and pretty-print the results. There are other output modes (including <code>table</code>, <code>csv</code>, and even <code>json</code>) which you can explore. You may also want to choose a different value to represent <code>NULL</code>; by default whitespace is used, but you can change it using <code>.nullvalue</code>, e.g. <code>.nullvalue &lt;null&gt;</code> to use the string <code>&lt;null&gt;</code>.</p>
 <h4 id="graphical-user-interface">Graphical user interface</h4>
 <p>There are graphical tools for querying SQLite databases, including the popular <a href="https://sqlitebrowser.org/">DB Browser for SQLite</a> and <a href="https://www.jetbrains.com/datagrip/">JetBrain’s DataGrip</a>.</p>
 <p>To open the database file with DB Browser for SQLite, just choose “Open Database” and find the <code>movies.sqlite</code> file. You can see an overview of the tables in the “Database Structure” tab, view the data in the tables in the “Browse Data” tab, and write SQL queries directly in the “Execute SQL” tab.</p>
@@ -178,14 +336,14 @@ sqlite&gt; SELECT 1;
 </ul>
 <h3 id="comments">Comments</h3>
 <p>Before looking at some queries, it is worth noting that comments in SQL use either <code>--</code> or the C-style <code>/* ... */</code>. You may see these used in examples and find them useful to document your work.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">-- this is a single-line comment</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">SELECT</span> <span class="dv">1</span>;</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">/* this </span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">   is</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">   a</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">   multi-line</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">   comment */</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw">SELECT</span> <span class="dv">2</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- this is a single-line comment</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="dv">1</span>;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">/* this </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">   is</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">   a</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">   multi-line</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">   comment */</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="dv">2</span>;</span></code></pre></div>
 <h3 id="basic-select-queries">Basic SELECT queries</h3>
 <p>To get data from a table, we can use the <code>SELECT ... FROM ...</code> construct. Since there are many rows in our database, whilst we are exploring the data it can be helpful to reduce the number of rows returned. We can do this by adding <code>LIMIT ...</code> to the end of our query, to return only the number of rows specified.</p>
 <pre><code>sqlite&gt; SELECT * FROM movies LIMIT 10;
@@ -217,7 +375,7 @@ tt0027977  Modern Times                1936  movie  87</code></pre>
 <p>(The rest of the examples will have the SQL query separate from the result, to allow easy copy-pasting into your own SQLite session or Python program).</p>
 <h4 id="selecting-specific-columns">Selecting specific columns</h4>
 <p><code>SELECT *</code> returns all columns from a table or query. If we only want some of the columns, we can choose to select/project out only those of interest. We can list them in any order; in the relational model, attributes (the columns of our table) are fundamentally unordered.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">LIMIT</span> <span class="dv">10</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
 <pre><code>movie_id   title                       year
 ---------  --------------------------  ----
 tt0012349  The Kid                     1921
@@ -231,61 +389,63 @@ tt0022100  M                           1931
 tt0025316  It Happened One Night       1934
 tt0027977  Modern Times                1936</code></pre>
 <p>We can also rename columns if we want, using the <code>AS</code> keyword. This can be helpful when making columns with derived data in, and is essential when joining tables with columns of the same name:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">SELECT</span> year <span class="kw">AS</span> release_year <span class="kw">FROM</span> movies <span class="kw">LIMIT</span> <span class="dv">1</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> year <span class="kw">AS</span> release_year <span class="kw">FROM</span> movies <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code></pre></div>
 <pre><code>release_year
 ------------
 1921</code></pre>
 <h4 id="sorting-results">Sorting results</h4>
 <p>Perhaps we are more interested in recent movies; if we wanted to see the 10 most <em>recent</em> movies in the database, we would need to sort the results in descending order before limiting them. To do that we can use SQL’s <code>ORDER BY ...</code> which, as you might expect, goes before the limit:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</a></code></pre></div>
-<pre><code>movie_id    title                                    year
-----------  ---------------------------------------  ----
-tt0439572   The Flash                                2023
-tt10366206  John Wick: Chapter 4                     2023
-tt12263384  Extraction II                            2023
-tt12758060  Tetris                                   2023
-tt1517268   Barbie                                   2023
-tt15398776  Oppenheimer                              2023
-tt16419074  Air                                      2023
-tt22297828  Chor Nikal Ke Bhaga                      2023
-tt24268454  The Kerala Story                         2023
-tt2906216   Dungeons &amp; Dragons: Honor Among Thieves  2023</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
+<pre><code>movie_id    title                            year
+----------  -------------------------------  ----
+tt0899043   The Amateur                      2025
+tt10548174  28 Years Later                   2025
+tt10676052  The Fantastic Four: First Steps  2025
+tt11655566  Lilo &amp; Stitch                    2025
+tt12299608  Mickey 17                        2025
+tt13357520  Heads of State                   2025
+tt13654226  The Gorge                        2025
+tt14205554  KPop Demon Hunters               2025
+tt16311594  F1: The Movie                    2025
+tt20969586  Thunderbolts*                    2025</code></pre>
 <p>As queries get longer, you can optionally write them over multiple lines for clarity and to increase readability:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">SELECT</span> movie_id, title, year</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">FROM</span> movies</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="kw">LIMIT</span> <span class="dv">10</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movie_id, title, year</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> movies</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
 <p>You can also order by multiple columns, noting that ascending order (<code>ASC</code>) is the default if you don’t specify an order after the column name:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span>, title <span class="kw">LIMIT</span> <span class="dv">10</span>;</a></code></pre></div>
-<pre><code>movie_id    title                                          year
-----------  ---------------------------------------------  ----
-tt16419074  Air                                            2023
-tt1517268   Barbie                                         2023
-tt22297828  Chor Nikal Ke Bhaga                            2023
-tt2906216   Dungeons &amp; Dragons: Honor Among Thieves        2023
-tt12263384  Extraction II                                  2023
-tt6791350   Guardians of the Galaxy Vol. 3                 2023
-tt10366206  John Wick: Chapter 4                           2023
-tt9603212   Mission: Impossible - Dead Reckoning Part One  2023
-tt15398776  Oppenheimer                                    2023
-tt9362722   Spider-Man: Across the Spider-Verse            2023</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span>, title <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
+<pre><code>movie_id    title                          year
+----------  -----------------------------  ----
+tt10548174  28 Years Later                 2025
+tt7181546   Ballerina                      2025
+tt30988739  Black Bag                      2025
+tt32246771  Bring Her Back                 2025
+tt26584495  Companion                      2025
+tt16311594  F1: The Movie                  2025
+tt9619824   Final Destination: Bloodlines  2025
+tt31868189  Happy Gilmore 2                2025
+tt13357520  Heads of State                 2025
+tt26743210  How to Train Your Dragon       2025</code></pre>
 <h3 id="filtering-using-where">Filtering using WHERE</h3>
 <p>Normally we don’t want to select every row of the table. The <code>WHERE</code> clause allows us to select only rows satisfying the condition provided. This condition is evaluated row-by-row on the selected rows and only rows where the condition is True are included. The condition can be anything from the trivial (<code>WHERE TRUE</code>, which would include every row; <code>WHERE FALSE</code> which would include nothing at all) to the complex, built up using logical operations like <code>AND</code>, <code>OR</code> and <code>NOT</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">WHERE</span> type=<span class="st">&#39;movie&#39;</span> <span class="kw">AND</span> year &gt;= <span class="dv">2013</span> <span class="kw">LIMIT</span> <span class="dv">5</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movie_id, title, year <span class="kw">FROM</span> movies <span class="kw">WHERE</span> type<span class="op">=</span><span class="st">&#39;movie&#39;</span> <span class="kw">AND</span> year <span class="op">&gt;=</span> <span class="dv">2013</span> <span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div>
 <pre><code>movie_id   title                            year
 ---------  -------------------------------  ----
+tt0293429  Mortal Kombat                    2021
 tt0359950  The Secret Life of Walter Mitty  2013
+tt0365907  A Walk Among the Tombstones      2014
 tt0369610  Jurassic World                   2015
-tt0437086  Alita: Battle Angel              2019
-tt0439572  The Flash                        2023
-tt0448115  Shazam!                          2019</code></pre>
+tt0385887  Motherless Brooklyn              2019</code></pre>
 <p>The usual comparison operators work for both text values and numeric values; <code>=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>&lt;&gt;</code> (or often <code>!=</code> too), and brackets <code>()</code>can be used to group operations. SQL also supports some basic pattern-matching for text values using the <code>LIKE</code> keyword; the <code>%</code> character is a wildcard, representing a match of any characters of any length; and <code>_</code> represents a single-character wildcard.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">SELECT</span> title <span class="kw">FROM</span> movies <span class="kw">WHERE</span> title <span class="kw">LIKE</span> <span class="st">&#39;Star %&#39;</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> title <span class="kw">FROM</span> movies <span class="kw">WHERE</span> title <span class="kw">LIKE</span> <span class="st">&#39;Star %&#39;</span>;</span></code></pre></div>
 <pre><code>title
 ----------------------------------------------
 Star Wars: Episode IV - A New Hope
 Star Wars: Episode V - The Empire Strikes Back
 Star Wars: Episode VI - Return of the Jedi
+Star Trek VI: The Undiscovered Country
+Star Trek: First Contact
 Star Wars: Episode I - The Phantom Menace
 Star Wars: Episode II - Attack of the Clones
 Star Wars: Episode III - Revenge of the Sith
@@ -293,82 +453,88 @@ Star Trek
 Star Trek Into Darkness
 Star Wars: Episode VII - The Force Awakens
 Star Wars: Episode VIII - The Last Jedi
+Star Wars: Episode IX - The Rise of Skywalker
 Star Trek Beyond</code></pre>
 <p>It’s worth highlighting that <code>WHERE</code> filtering happens <em>after</em> the rows have been selected; it doesn’t matter for these simple queries, but can become important with complicated JOINs.</p>
 <h3 id="aggregating-data-using-group-by">Aggregating data using GROUP BY</h3>
 <p>Often we want to aggregate data together to give summary values. For example, suppose we wanted to know how many movies were made each year since 2018. We can use the GROUP BY construct to group rows together by shared attribute value, and then use an aggregate function like <code>count</code> to return a single result for that shared value. The <code>AS</code> keyword lets us name the result of this aggregate function. We’ll use <code>count(*)</code> to mean “count how many rows in this group”; you can use <code>count(1)</code> or indeed any constant non-null value; the star highlights that it doesn’t matter what part of the row we count.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">SELECT</span> year, <span class="fu">count</span>(*) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> movies <span class="kw">WHERE</span> year &gt; <span class="dv">2018</span> <span class="kw">GROUP</span> <span class="kw">BY</span> year <span class="kw">ORDER</span> <span class="kw">BY</span> year;</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> year, <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> movies <span class="kw">WHERE</span> year <span class="op">&gt;=</span> <span class="dv">2018</span> <span class="kw">GROUP</span> <span class="kw">BY</span> year <span class="kw">ORDER</span> <span class="kw">BY</span> year;</span></code></pre></div>
 <pre><code>year  n_movies
 ----  --------
-2018  56
-2019  59
-2020  26
-2021  42
-2022  42
-2023  16</code></pre>
+2018  127
+2019  125
+2020  68
+2021  89
+2022  98
+2023  96
+2024  73
+2025  27</code></pre>
 <p>When using <code>GROUP BY</code>, any attribute selected in the <code>SELECT</code> clause <strong>must</strong> be in the <code>GROUP BY</code> clause or inside an aggregate function. The only exception to this is when you are grouping by the primary key of one table in a JOIN, in which case you can select other attributes from that table (since they are unique for that primary key value being grouped by).</p>
-<p>In the example above, imagine we tried to do <code>SELECT year, type, count(*) FROM movies GROUP BY year;</code>. For the grouped row with <code>year</code> equal to 2018, there are 56 different values for <code>type</code> in the rows we grouped together; which value should we pick for the returned row? In almost every relational database system except SQLite, attempting to run this query will throw an error. <a href="https://sqlite.org/quirks.html#aggregate_queries_can_contain_non_aggregate_result_columns_that_are_not_in_the_group_by_clause">SQLite is different</a>; it will pick a row arbitrarily, which may well not be what you want and may hide a mistake you have made. Take care here!</p>
+<p>In the example above, imagine we tried to do <code>SELECT year, type, count(*) FROM movies GROUP BY year;</code>. For the grouped row with <code>year</code> equal to 2021, there are 89 different values for <code>type</code> in the rows we grouped together; which value should we pick for the returned row? In almost every relational database system except SQLite, attempting to run this query will throw an error. <a href="https://sqlite.org/quirks.html#aggregate_queries_can_contain_non_aggregate_result_columns_that_are_not_in_the_group_by_clause">SQLite is different</a>; it will pick a row arbitrarily, which may well not be what you want and may hide a mistake you have made. Take care here!</p>
 <p>Of course, if we wanted to know how many movies of each type there were per year, we could use the query <code>SELECT year, type, count(*) FROM movies GROUP BY year, type;</code> which will do what we want, but will return multiple rows for each year; one for each of the types of movie released that year. This will <strong>not</strong> have the same result as the previous query! It will also not return rows for the “no movies of this type were released this year” case; i.e. there will not be any zero rows. Think about why this is, and what it might be possible to do if you wanted these zeroes too.</p>
 <p><code>GROUP BY</code> comes after <code>WHERE</code> but before <code>ORDER BY</code> and <code>LIMIT</code>. A <code>WHERE</code> clause filters which rows are selected for inclusion in the grouping; it is used before the grouping starts. This means you cannot use the results of an aggregate to do filtering directly. If we want to select years with at least 50 movies released in them, we <strong>cannot</strong> use <code>WHERE count(*) &gt;= 50</code>; this is a syntax error, aggregate functions cannot appear in a WHERE clause. We either have to use a nested subquery:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">SELECT</span> year, total <span class="kw">FROM</span> (<span class="kw">SELECT</span> year, <span class="fu">count</span>(*) <span class="kw">AS</span> total <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year) <span class="kw">AS</span> subquery <span class="kw">WHERE</span> total &gt;= <span class="dv">50</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> year, total <span class="kw">FROM</span> (<span class="kw">SELECT</span> year, <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> total <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year) <span class="kw">AS</span> subquery <span class="kw">WHERE</span> total <span class="op">&gt;=</span> <span class="dv">50</span>;</span></code></pre></div>
 <p>or we can use the <code>HAVING</code> keyword, which is exactly equivalent to the nested query form above:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">SELECT</span> year, <span class="fu">count</span>(*) <span class="kw">AS</span> total <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year <span class="kw">HAVING</span> total &gt; <span class="dv">50</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> year, <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> total <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year <span class="kw">HAVING</span> total <span class="op">&gt;</span> <span class="dv">50</span>;</span></code></pre></div>
 <p><code>HAVING</code> filters the rows resulting from the grouping, <code>WHERE</code> filters the rows <em>before</em> the grouping.</p>
 <h3 id="other-aggregate-functions">Other aggregate functions</h3>
 <p>We used <code>count(*)</code> above, and remarked that we could have used <code>count(1)</code> or any non-null value. If instead we use a column name, like <code>count(movie_id)</code>, we will count how many non-null rows there are. There are no non-null values in the movies table, but this ability to count only non-null values will be more useful later on.</p>
 <p>There is also a <code>DISTINCT</code> keyword we can use inside the count function, for example if we want to know how many different types of movie were released each year. Some years will have <code>tvMovies</code> and <code>movies</code>, say, and so have a count of 2; others only have one type and so have a count of 1.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">SELECT</span> year, <span class="fu">count</span>(<span class="kw">DISTINCT</span> type) <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year <span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">5</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> year, <span class="fu">count</span>(<span class="kw">DISTINCT</span> type) <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year <span class="kw">ORDER</span> <span class="kw">BY</span> year <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div>
 <pre><code>year  count(DISTINCT type)
 ----  --------------------
-2023  1
-2022  1
-2021  2
-2020  2
-2019  2</code></pre>
+2025  1
+2024  1
+2023  2
+2022  2
+2021  2</code></pre>
 <p>There are other aggregate functions; <code>avg</code> (mean), <code>sum</code>, <code>min</code> and <code>max</code> for numeric values:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">SELECT</span> <span class="fu">min</span>(votes), <span class="fu">max</span>(votes), <span class="fu">avg</span>(votes), <span class="fu">sum</span>(votes) <span class="kw">FROM</span> ratings;</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">min</span>(votes), <span class="fu">max</span>(votes), <span class="fu">avg</span>(votes), <span class="fu">sum</span>(votes) <span class="kw">FROM</span> ratings;</span></code></pre></div>
 <pre><code>min(votes)  max(votes)  avg(votes)        sum(votes)
 ----------  ----------  ----------------  ----------
-5448        2771997     348167.154466085  518420893</code></pre>
+5019        3099011     255650.047359455  750332889</code></pre>
 <p>We used the ratings table here, since it makes sense to think about average number of votes and total number of votes on movies. Notice we didn’t include a <code>GROUP BY</code> clause but used aggregate functions; since there are no non-aggregate columns, the database groups all the rows into one group and computes these values on that full set of rows.</p>
 <h3 id="example-query-1">Example query 1</h3>
 <p>At this point we can look at a fuller example that uses most of the constructs above, to highlight the order we build up an SQL query in:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">SELECT</span> year, <span class="fu">count</span>(*) <span class="kw">AS</span> n_movies</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">FROM</span> movies</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="kw">WHERE</span> (year &gt;= <span class="dv">2000</span> <span class="kw">AND</span> year &lt; <span class="dv">2010</span>) <span class="kw">AND</span> type=<span class="st">&#39;movie&#39;</span></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw">GROUP</span> <span class="kw">BY</span> year</a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies <span class="kw">DESC</span></a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="kw">LIMIT</span> <span class="dv">3</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> year, <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> n_movies</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> movies</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> (year <span class="op">&gt;=</span> <span class="dv">2000</span> <span class="kw">AND</span> year <span class="op">&lt;</span> <span class="dv">2010</span>) <span class="kw">AND</span> type<span class="op">=</span><span class="st">&#39;movie&#39;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> year</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies <span class="kw">DESC</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">3</span>;</span></code></pre></div>
 <p>What does this query do? It is looking at the movies table, including only cinema movies from the 2000’s, grouping them by year and counting how many there are per-year. It then orders these rows by the number of movies in each year and limits this to the top three. So the query finds the top three years in the 2000’s with the largest number of cinema movies that year.</p>
 <h3 id="using-joins">Using JOINs</h3>
 <p>The real power of a relational database lies in the ability to join tables of related data together; almost everything up to this point could have been a glorified spreadsheet.</p>
 <p>For our first <code>JOIN</code>, we will join together the <code>movies</code> and <code>ratings</code> tables to get the ratings for each movie with the title of the movie. <code>ratings</code> has a foreign key <code>movie_id</code> that links to the primary key of the <code>movies</code> table; we join on these values being equal. Each row in <code>ratings</code> corresponds to exactly one row in <code>movies</code> and vice versa, so this is a very simple join.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">SELECT</span> title, rating, votes <span class="kw">FROM</span> movies <span class="kw">JOIN</span> ratings <span class="kw">ON</span> movies.movie_id=ratings.movie_id</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">ORDER</span> <span class="kw">BY</span> rating <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">5</span>;</a></code></pre></div>
-<pre><code>title                             rating  votes
---------------------------------  ------  -------
-Threat Level Midnight: The Movie  9.6     9882
-The Shawshank Redemption          9.3     2771997
-The Godfather                     9.2     1929661
-12 Angry Men                      9       822267
-The Godfather Part II             9       1312387</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> title, rating, votes <span class="kw">FROM</span> movies <span class="kw">JOIN</span> ratings <span class="kw">ON</span> movies.movie_id<span class="op">=</span>ratings.movie_id</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> rating <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div>
+<pre><code>title                     rating  votes
+------------------------  ------  -------
+The Shawshank Redemption  9.3     3099011
+The Godfather             9.2     2159874
+The Dark Knight           9.1     3074009
+12 Angry Men              9       948232
+The Godfather Part II     9       1451637</code></pre>
 <p>This is an inner join (indeed we could have written <code>movies INNER JOIN ratings</code>, the <code>INNER</code> keyword is entirely optional). It uses the <code>JOIN ... ON ...</code> construct, with the <code>ON</code> clause used to decide which pairs of rows from all possible pairings should be included. There are other older ways to write this join; the following are all equivalent for an inner join:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co">-- modern, best-practice join:</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">SELECT</span> * <span class="kw">FROM</span> movies <span class="kw">JOIN</span> ratings <span class="kw">ON</span> movies.movie_id=ratings.movie_id;</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co">-- throwback to the dark ages, the implicit comma-join:</span></a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="kw">SELECT</span> * <span class="kw">FROM</span> movies, ratings <span class="kw">WHERE</span> movies.movie_id=ratings.movie_id;</a>
-<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">-- cross-join, equivalent to comma-join but clearer:</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="kw">SELECT</span> * <span class="kw">FROM</span> movies <span class="kw">CROSS</span> <span class="kw">JOIN</span> ratings <span class="kw">WHERE</span> movies.movie_id=ratings.movie_id;</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- modern, best-practice join:</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> movies <span class="kw">JOIN</span> ratings <span class="kw">ON</span> movies.movie_id<span class="op">=</span>ratings.movie_id;</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- throwback to the dark ages, the implicit comma-join:</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> movies, ratings <span class="kw">WHERE</span> movies.movie_id<span class="op">=</span>ratings.movie_id;</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- cross-join, equivalent to comma-join but clearer:</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> movies <span class="kw">CROSS</span> <span class="kw">JOIN</span> ratings <span class="kw">WHERE</span> movies.movie_id<span class="op">=</span>ratings.movie_id;</span></code></pre></div>
 <p>The <code>JOIN ... ON ...</code> syntax is preferable, for clarity and because for outer joins the <code>WHERE</code> clause behaves differently.</p>
 <h4 id="natural-joins">Natural joins</h4>
 <p>In this case we could also have used a <code>NATURAL JOIN</code>. Natural joins join tables on <strong>all</strong> shared column names; here the only shared column name was <code>movie_id</code> and the join would have behaved as we might have expected. Note that foreign keys are irrelevant to a natural join; the join is based solely on the column <em>names</em> and nothing more.</p>
 <p>In the real world, <code>NATURAL JOIN</code> is considered fragile and dangerous; the columns of a table are not fixed and a query that once worked can easily break if a new column is added that happens to have a shared name. The logic of how the join works is no longer in the query but determined by the current state of the database. Additionally, consider what happens when two tables have a common column name that is not related, such as a <code>last_updated</code> time; there are unlikely to be circumstances where we would want to join on equal last updated timestamps for different objects! Never use a <code>NATURAL JOIN</code>.</p>
+<p>The <code>JOIN ... USING</code> syntax is a safer form of natural join; if you are joining two tables on a shared column name, you can use:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> movies <span class="kw">JOIN</span> ratings <span class="kw">USING</span> (movie_id);</span></code></pre></div>
+<p>Like a natural join, and unlike the inner joins above, this will only return the shared column name once in the result columns. It avoids the downsides of a natural join whilst still being less verbose than the <code>JOIN ... ON</code> syntax above, though it is much less flexible than that syntax.</p>
 <h4 id="multiple-joins">Multiple joins</h4>
 <p>It is possible to join more than one table; we often want to join several tables together in a normalised database. Consider finding the names of the genres for each movie. We will need to use <code>movies</code>, <code>has_genre</code> and <code>genres</code>:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">SELECT</span> movies.movie_id, title, genres.name <span class="kw">FROM</span> movies</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">JOIN</span> has_genre <span class="kw">ON</span> movies.movie_id=has_genre.movie_id</a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw">JOIN</span> genres <span class="kw">ON</span> has_genre.genre_id=genres.genre_id</a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="kw">LIMIT</span> <span class="dv">10</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movies.movie_id, title, genres.name <span class="kw">FROM</span> movies</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> has_genre <span class="kw">ON</span> movies.movie_id<span class="op">=</span>has_genre.movie_id</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> genres <span class="kw">ON</span> has_genre.genre_id<span class="op">=</span>genres.genre_id</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
 <pre><code>movie_id   title          name
 ---------  -------------  ---------
 tt0012349  The Kid        Comedy
@@ -382,44 +548,49 @@ tt0015864  The Gold Rush  Comedy
 tt0015864  The Gold Rush  Drama
 tt0017136  Metropolis     Drama</code></pre>
 <p>Each movie is associated with more than one genre and for each match via our joins, we get an additional row in the results. Notice that we used <code>movies.movie_id</code> in the <code>SELECT</code>; there are two <code>movie_id</code> columns in our joined set of columns, and we have to choose which one we want (even though we joined on that value and so know they are always equal).</p>
+<p>The <code>JOIN ... USING</code> syntax does avoid this issue, since only one version of the shared column is included in the results:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movie_id, title, genres.name <span class="kw">FROM</span> movies</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> has_genre <span class="kw">USING</span> (movie_id)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> genres <span class="kw">USING</span> (genre_id)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div>
 <h3 id="example-query-2">Example query 2</h3>
 <p>How might we go about finding the most popular 5 rom-coms? We need to find movies with both the genres <code>Romance</code> and <code>Comedy</code>, and then order them by their rating votes.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">SELECT</span> title, year, votes</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw">FROM</span> movies</a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="kw">JOIN</span> ratings <span class="kw">ON</span> movies.movie_id = ratings.movie_id</a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="kw">JOIN</span> has_genre <span class="kw">AS</span> hg1 <span class="kw">ON</span> movies.movie_id = hg1.movie_id</a>
-<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="kw">JOIN</span> genres <span class="kw">AS</span> g1 <span class="kw">ON</span> hg1.genre_id = g1.genre_id</a>
-<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="kw">JOIN</span> has_genre <span class="kw">AS</span> hg2 <span class="kw">ON</span> movies.movie_id = hg2.movie_id</a>
-<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="kw">JOIN</span> genres <span class="kw">AS</span> g2 <span class="kw">ON</span> hg2.genre_id = g2.genre_id</a>
-<a class="sourceLine" id="cb34-8" data-line-number="8"><span class="kw">WHERE</span> g1.name=<span class="st">&#39;Romance&#39;</span> <span class="kw">AND</span> g2.name=<span class="st">&#39;Comedy&#39;</span></a>
-<a class="sourceLine" id="cb34-9" data-line-number="9"><span class="kw">ORDER</span> <span class="kw">BY</span> votes <span class="kw">DESC</span></a>
-<a class="sourceLine" id="cb34-10" data-line-number="10"><span class="kw">LIMIT</span> <span class="dv">5</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> title, year, votes</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> movies</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> ratings <span class="kw">ON</span> movies.movie_id <span class="op">=</span> ratings.movie_id</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> has_genre <span class="kw">AS</span> hg1 <span class="kw">ON</span> movies.movie_id <span class="op">=</span> hg1.movie_id</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> genres <span class="kw">AS</span> g1 <span class="kw">ON</span> hg1.genre_id <span class="op">=</span> g1.genre_id</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> has_genre <span class="kw">AS</span> hg2 <span class="kw">ON</span> movies.movie_id <span class="op">=</span> hg2.movie_id</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> genres <span class="kw">AS</span> g2 <span class="kw">ON</span> hg2.genre_id <span class="op">=</span> g2.genre_id</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> g1.name<span class="op">=</span><span class="st">&#39;Romance&#39;</span> <span class="kw">AND</span> g2.name<span class="op">=</span><span class="st">&#39;Comedy&#39;</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> votes <span class="kw">DESC</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div>
 <pre><code>title                    year  votes
 -----------------------  ----  ------
-Amélie                   2001  773610
-Silver Linings Playbook  2012  725171
-Life Is Beautiful        1997  716419
-Crazy, Stupid, Love.     2011  537985
-500 Days of Summer       2009  534903</code></pre>
-<p>Since we need to join the <code>genres</code> and <code>has_genre</code> tables twice, we need to give each of them an alias using the <code>AS</code> construct so that we can be clear which constraints belong to which copy of the table.</p>
+Amélie                   2001  825797
+Life Is Beautiful        1997  789990
+Silver Linings Playbook  2012  764173
+500 Days of Summer       2009  601177
+Crazy, Stupid, Love.     2011  600746</code></pre>
+<p>Since we need to join the <code>genres</code> and <code>has_genre</code> tables twice, we need to give each of them an alias using the <code>AS</code> construct so that we can be clear which constraints belong to which copy of the table. We cannot use <code>JOIN ... USING</code> here.</p>
 <h3 id="outer-joins">Outer joins</h3>
 <p>The joins mentioned so far are all inner joins; if a row pairing doesn’t match the predicate, it is excluded. Sometimes we might want to keep a row that does not match the table we are joining to. Consider this join:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">SELECT</span> name, <span class="fu">count</span>(movie_id) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> people</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id = has_position.person_id <span class="kw">AND</span> position=<span class="st">&#39;actor&#39;</span></a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</a>
-<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="kw">LIMIT</span> <span class="dv">3</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> name, <span class="fu">count</span>(movie_id) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> people</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id <span class="op">=</span> has_position.person_id <span class="kw">AND</span> position<span class="op">=</span><span class="st">&#39;actor&#39;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">3</span>;</span></code></pre></div>
 <pre><code>name            n_movies
 --------------  --------
-Lauren Bacall   1
 John Belushi    1
-Ingrid Bergman  1</code></pre>
+Ingrid Bergman  1
+Bette Davis     1</code></pre>
 <p>Are there not people in our <code>people</code> table that have never acted? Why are there no rows with <code>n_movies</code> equal to zero? What we want here is to keep the <code>people</code> row even if it does not match a <code>has_position</code> row. A <code>LEFT JOIN</code> (or <code>LEFT OUTER JOIN</code>, the <code>OUTER</code> is entirely optional) will allow us to do this. If the row from the left side of the join does not match a row from the right side table, it is kept anyway and <code>NULL</code> values used for all the right table attributes in the resulting row.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">SELECT</span> name, <span class="fu">count</span>(movie_id) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> people</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw">LEFT</span> <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id = has_position.person_id <span class="kw">AND</span> position=<span class="st">&#39;actor&#39;</span></a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies</a>
-<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="kw">LIMIT</span> <span class="dv">3</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> name, <span class="fu">count</span>(movie_id) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> people</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id <span class="op">=</span> has_position.person_id <span class="kw">AND</span> position<span class="op">=</span><span class="st">&#39;actor&#39;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">3</span>;</span></code></pre></div>
 <pre><code>name             n_movies
 ---------------  --------
 Ingmar Bergman   0
@@ -427,25 +598,25 @@ Georges Delerue  0
 Jerry Goldsmith  0</code></pre>
 <p>Voilà; now the query keeps the non-actors. The count doesn’t count the <code>NULL</code> <code>movie_id</code> values that result from not matching, and so we get the zeroes we were expecting.</p>
 <p>There is a big “gotcha!” hiding here. Notice how the query checks that the position is an actor not in a <code>WHERE</code> clause but in the <code>ON</code> clause of the join. If we move the position check into a <code>WHERE</code> clause, something odd happens:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">SELECT</span> name, <span class="fu">count</span>(movie_id) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> people</a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">LEFT</span> <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id = has_position.person_id</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">WHERE</span> position=<span class="st">&#39;actor&#39;</span></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</a>
-<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="kw">LIMIT</span> <span class="dv">3</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> name, <span class="fu">count</span>(movie_id) <span class="kw">AS</span> n_movies <span class="kw">FROM</span> people</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id <span class="op">=</span> has_position.person_id</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> position<span class="op">=</span><span class="st">&#39;actor&#39;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_movies</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">3</span>;</span></code></pre></div>
 <pre><code>name            n_movies
 --------------  --------
-Lauren Bacall   1
 John Belushi    1
-Ingrid Bergman  1</code></pre>
+Ingrid Bergman  1
+Bette Davis     1</code></pre>
 <p>Our zeroes are gone again, despite our <code>LEFT JOIN</code>! The issue here is that <code>WHERE</code> clause filtering happens <em>after</em> the join has happened. If we look at the results of the join before we do any grouping, the problem becomes clearer:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">SELECT</span> people.person_id, name, movie_id, position <span class="kw">FROM</span> people</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">LEFT</span> <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id = has_position.person_id <span class="kw">AND</span> position=<span class="st">&#39;actor&#39;</span></a>
-<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</a>
-<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw">LIMIT</span> <span class="dv">3</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> people.person_id, name, movie_id, position <span class="kw">FROM</span> people</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id <span class="op">=</span> has_position.person_id <span class="kw">AND</span> position<span class="op">=</span><span class="st">&#39;actor&#39;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> people.person_id</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">3</span>;</span></code></pre></div>
 <pre><code>person_id  name            movie_id   position
 ---------  --------------  ---------  --------
-nm0000002  Lauren Bacall   tt0276919  actor
+nm0000002  Lauren Bacall   tt0100157  actor
 nm0000004  John Belushi    tt0080455  actor
 nm0000005  Ingmar Bergman  &lt;null&gt;     &lt;null&gt;</code></pre>
 <p>Notice the <code>NULL</code> value in the <code>position</code> column for ‘Ingmar Bergman’. When our <code>WHERE</code> clause then filters these rows, it will compare <code>NULL='actor'</code>, which results in <code>NULL</code>, and skip the row because <code>NULL</code> is false-y. So we end up removing the left-joined rows again.</p>
@@ -453,79 +624,79 @@ nm0000005  Ingmar Bergman  &lt;null&gt;     &lt;null&gt;</code></pre>
 <p><code>RIGHT JOIN</code> also exists, but it is unnecessary; you can always swap the order of the tables in the join around to make a right join a left join or vice versa. What if you want to keep both the left side rows that don’t match <em>and</em> the right hand side rows that don’t match? A <code>FULL OUTER JOIN</code> will do this (but SQLite’s support for this is poor if <code>LIMIT</code>s are involved).</p>
 <h3 id="subqueries">Subqueries</h3>
 <p>The results of any <code>SELECT</code> query can be treated like a table and used inside another <code>SELECT</code> query. This can be helpful for building up more complex queries. The <code>HAVING</code> clause example earlier used a subquery as an alternative:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">SELECT</span> year, total <span class="kw">FROM</span> (<span class="kw">SELECT</span> year, <span class="fu">count</span>(*) <span class="kw">AS</span> total <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year) <span class="kw">AS</span> subquery <span class="kw">WHERE</span> total &gt;= <span class="dv">50</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> year, total <span class="kw">FROM</span> (<span class="kw">SELECT</span> year, <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> total <span class="kw">FROM</span> movies <span class="kw">GROUP</span> <span class="kw">BY</span> year) <span class="kw">AS</span> subquery <span class="kw">WHERE</span> total <span class="op">&gt;=</span> <span class="dv">50</span>;</span></code></pre></div>
 <p>Here we do some extra filtering on the result of the inner query. SQLite does not insist on a unique name for the subquery, but some other DBMSes do require it.</p>
 <p>These subqueries can be nested arbitrarily deep, though the readability decreases quite quickly:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">SELECT</span> * <span class="kw">FROM</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">    (<span class="kw">SELECT</span> * <span class="kw">FROM</span></a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">         (<span class="kw">SELECT</span> * <span class="kw">FROM</span> people <span class="kw">WHERE</span> deathyear <span class="kw">IS</span> <span class="kw">NULL</span>) <span class="kw">AS</span> living_actors</a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">    <span class="kw">WHERE</span> birthyear &lt;= <span class="dv">1950</span>) <span class="kw">AS</span> older_living_actors</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">&#39;%John%&#39;</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>         (<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> people <span class="kw">WHERE</span> deathyear <span class="kw">IS</span> <span class="kw">NULL</span>) <span class="kw">AS</span> living_actors</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> birthyear <span class="op">&lt;=</span> <span class="dv">1950</span>) <span class="kw">AS</span> older_living_actors</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">&#39;%John%&#39;</span>;</span></code></pre></div>
 <h4 id="in-and-not-in">IN and NOT IN</h4>
 <p>We can treat the results of a subquery like a set, and use the <code>IN</code> and <code>NOT IN</code> operators to check if a value exists in that set in a <code>WHERE</code> clause. This can be a powerful alternative to a join, although it is often worth testing both approaches with real data before deciding one way is better than the other.</p>
 <p>Consider finding people who have composed for a movie. We could do this in two different ways:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> people.* </a>
-<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="kw">FROM</span> people <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id = has_position.person_id</a>
-<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="kw">WHERE</span> position=<span class="st">&#39;composer&#39;</span>;</a>
-<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="co">-- or</span></a>
-<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="kw">SELECT</span> * <span class="kw">FROM</span> people <span class="kw">WHERE</span> person_id <span class="kw">IN</span> (<span class="kw">SELECT</span> person_id <span class="kw">FROM</span> has_position <span class="kw">WHERE</span> position=<span class="st">&#39;composer&#39;</span>);</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> people.<span class="op">*</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> people <span class="kw">JOIN</span> has_position <span class="kw">ON</span> people.person_id <span class="op">=</span> has_position.person_id</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> position<span class="op">=</span><span class="st">&#39;composer&#39;</span>;</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- or</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> people <span class="kw">WHERE</span> person_id <span class="kw">IN</span> (<span class="kw">SELECT</span> person_id <span class="kw">FROM</span> has_position <span class="kw">WHERE</span> position<span class="op">=</span><span class="st">&#39;composer&#39;</span>);</span></code></pre></div>
 <p>Notice that we have to include a <code>DISTINCT</code> in the join version, since if a person composed for multiple movies they would appear multiple times in the results. Using the <code>person_id IN (...)</code> approach avoids this because we are just selecting rows directly from <code>people</code> and each person only appears once.</p>
 <p>Consider finding people who have never acted; we can do this with <code>NOT IN</code>:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">SELECT</span> * <span class="kw">FROM</span> people <span class="kw">WHERE</span> person_id <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="kw">SELECT</span> person_id <span class="kw">FROM</span> has_position <span class="kw">WHERE</span> position=<span class="st">&#39;actor&#39;</span>);</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> people <span class="kw">WHERE</span> person_id <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="kw">SELECT</span> person_id <span class="kw">FROM</span> has_position <span class="kw">WHERE</span> position<span class="op">=</span><span class="st">&#39;actor&#39;</span>);</span></code></pre></div>
 <p>Take care with <code>NOT IN</code>, however. If there are <code>NULL</code> values in the subquery, it will do very unexpected things!</p>
 <p>The matching is not limited to a single column, either; it is possible to say <code>WHERE (a, b) IN (SELECT c, d FROM table)</code> and so on.</p>
 <h3 id="views-and-common-table-expressions">VIEWs and Common Table Expressions</h3>
 <p>Sometimes it is useful to break a query up into parts, either because it is complicated or because bits of it are useful in many other queries. A <code>VIEW</code> is a permanent way of saving a <code>SELECT</code> query into the database, giving it a name and allowing it to be used as if it was a table in subsequent queries.</p>
 <p>We can create a view that contains only people who have composed for movies:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">CREATE</span> <span class="kw">VIEW</span> composers <span class="kw">AS</span> </a>
-<a class="sourceLine" id="cb48-2" data-line-number="2">    <span class="kw">SELECT</span> * <span class="kw">FROM</span> people <span class="kw">WHERE</span> person_id <span class="kw">IN</span> (<span class="kw">SELECT</span> person_id <span class="kw">FROM</span> has_position <span class="kw">WHERE</span> position=<span class="st">&#39;composer&#39;</span>);</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> composers <span class="kw">AS</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> people <span class="kw">WHERE</span> person_id <span class="kw">IN</span> (<span class="kw">SELECT</span> person_id <span class="kw">FROM</span> has_position <span class="kw">WHERE</span> position<span class="op">=</span><span class="st">&#39;composer&#39;</span>);</span></code></pre></div>
 <p>and then use that view by name in subsequent queries:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">SELECT</span> * <span class="kw">FROM</span> composers;</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> composers;</span></code></pre></div>
 <p>When creating views, note that they are permanent; this view will stay around in our database, potentially for other users to access it. If we make lots of views, it can quickly get confusing. Views are stored as queries; when we refer to it, the query is executed.</p>
 <p>In practice, it is unlikely that you will want to make a view unless it is a really common subquery or a very helpful abstraction. You can remove views you have made by name:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">DROP</span> <span class="kw">VIEW</span> composers;</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">VIEW</span> composers;</span></code></pre></div>
 <h4 id="common-table-expressions">Common Table Expressions</h4>
 <p>Rather than using permanent views, it can be helpful to use named subqueries declared up-front. These are called “common table expressions” (CTEs), and are declared using the <code>WITH</code> clause. They behave in exactly the same way as a view, but last only for the single query they occur in. They can refer to earlier CTEs in the <code>WITH</code> clause, too:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">WITH</span></a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">    romances <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id = has_genre.genre_id <span class="kw">AND</span> name=<span class="st">&#39;Romance&#39;</span>),</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">    comedies <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id = has_genre.genre_id <span class="kw">AND</span> name=<span class="st">&#39;Comedy&#39;</span>),</a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">    rom_coms <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> romances <span class="kw">WHERE</span> movie_id <span class="kw">IN</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> comedies))</a>
-<a class="sourceLine" id="cb51-5" data-line-number="5"><span class="kw">SELECT</span> * <span class="kw">FROM</span> movies <span class="kw">WHERE</span> movie_id <span class="kw">IN</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> rom_coms);</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    romances <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id <span class="op">=</span> has_genre.genre_id <span class="kw">AND</span> name<span class="op">=</span><span class="st">&#39;Romance&#39;</span>),</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    comedies <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id <span class="op">=</span> has_genre.genre_id <span class="kw">AND</span> name<span class="op">=</span><span class="st">&#39;Comedy&#39;</span>),</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    rom_coms <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> romances <span class="kw">WHERE</span> movie_id <span class="kw">IN</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> comedies))</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> movies <span class="kw">WHERE</span> movie_id <span class="kw">IN</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> rom_coms);</span></code></pre></div>
 <p>This query finds all rom-coms. Unlike making views, the names <code>romances</code>, <code>comedies</code> and <code>rom_coms</code> don’t exist outside this query. This might be easier to follow than the approach using joins taken in Example 2!</p>
 <h3 id="set-operations">Set operations</h3>
 <p>In the rom-com example above, we were trying to find the intersection of the set of movies that were romances with the set of movies that were comedies. Rather than the clunky <code>WHERE movie_id IN ...</code> approach above, we can use the fact that SQL supports set operations to make this more clear.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">WITH</span></a>
-<a class="sourceLine" id="cb52-2" data-line-number="2">    romances <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id = has_genre.genre_id <span class="kw">AND</span> name=<span class="st">&#39;Romance&#39;</span>),</a>
-<a class="sourceLine" id="cb52-3" data-line-number="3">    comedies <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id = has_genre.genre_id <span class="kw">AND</span> name=<span class="st">&#39;Comedy&#39;</span>),</a>
-<a class="sourceLine" id="cb52-4" data-line-number="4">    rom_coms <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> romances <span class="kw">INTERSECT</span> <span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> comedies)</a>
-<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="kw">SELECT</span> * <span class="kw">FROM</span> movies <span class="kw">WHERE</span> movie_id <span class="kw">IN</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> rom_coms);</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    romances <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id <span class="op">=</span> has_genre.genre_id <span class="kw">AND</span> name<span class="op">=</span><span class="st">&#39;Romance&#39;</span>),</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    comedies <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> has_genre <span class="kw">JOIN</span> genres <span class="kw">ON</span> genres.genre_id <span class="op">=</span> has_genre.genre_id <span class="kw">AND</span> name<span class="op">=</span><span class="st">&#39;Comedy&#39;</span>),</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    rom_coms <span class="kw">AS</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> romances <span class="kw">INTERSECT</span> <span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> comedies)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> movies <span class="kw">WHERE</span> movie_id <span class="kw">IN</span> (<span class="kw">SELECT</span> movie_id <span class="kw">FROM</span> rom_coms);</span></code></pre></div>
 <p>There is also <code>EXCEPT</code> for set difference, <code>UNION</code> for set union removing duplicate values, and <code>UNION ALL</code> for a union operation preserving duplicate values. Note that in most SQL dialects you can include brackets around the sides of these set operations, but SQLite does not support this.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co">-- not allowed by SQLite:</span></a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">(<span class="kw">SELECT</span> <span class="dv">1</span> <span class="kw">AS</span> n) <span class="kw">UNION</span> (<span class="kw">SELECT</span> <span class="dv">2</span> <span class="kw">AS</span> n);</a>
-<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="co">-- allowed:</span></a>
-<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="kw">SELECT</span> <span class="dv">1</span> <span class="kw">AS</span> n <span class="kw">UNION</span> <span class="kw">SELECT</span> <span class="dv">2</span> <span class="kw">AS</span> n;</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- not allowed by SQLite:</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>(<span class="kw">SELECT</span> <span class="dv">1</span> <span class="kw">AS</span> n) <span class="kw">UNION</span> (<span class="kw">SELECT</span> <span class="dv">2</span> <span class="kw">AS</span> n);</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- allowed:</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="dv">1</span> <span class="kw">AS</span> n <span class="kw">UNION</span> <span class="kw">SELECT</span> <span class="dv">2</span> <span class="kw">AS</span> n;</span></code></pre></div>
 <h3 id="values-clauses">VALUES clauses</h3>
 <p>When inserting data, we need a row-like object containing some data we’re providing from outside the database. We may also want to make a quick table of temporary data. The <code>VALUES</code> clause allows us to do this.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">WITH</span> temp(a, b, c) <span class="kw">AS</span> (<span class="kw">VALUES</span> (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), (<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</a>
-<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw">SELECT</span> * <span class="kw">FROM</span> temp;</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> temp(a, b, c) <span class="kw">AS</span> (<span class="kw">VALUES</span> (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), (<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> temp;</span></code></pre></div>
 <pre><code>a  b  c
 -  -  -
 1  2  3
 4  5  6</code></pre>
 <p>It is most commonly seen when doing an <code>INSERT</code>:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">INSERT</span> <span class="kw">INTO</span> movies <span class="kw">VALUES</span> (<span class="st">&#39;fake_id&#39;</span>, <span class="st">&#39;fake_title&#39;</span>, <span class="dv">999</span>, <span class="st">&#39;movie&#39;</span>, <span class="dv">-1</span>);</a>
-<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="co">-- let&#39;s clean up our mess right now:</span></a>
-<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="kw">DELETE</span> <span class="kw">FROM</span> movies <span class="kw">WHERE</span> movie_id=<span class="st">&#39;fake_id&#39;</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> movies <span class="kw">VALUES</span> (<span class="st">&#39;fake_id&#39;</span>, <span class="st">&#39;fake_title&#39;</span>, <span class="dv">999</span>, <span class="st">&#39;movie&#39;</span>, <span class="op">-</span><span class="dv">1</span>);</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- let&#39;s clean up our mess right now:</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> movies <span class="kw">WHERE</span> movie_id<span class="op">=</span><span class="st">&#39;fake_id&#39;</span>;</span></code></pre></div>
 <p>One neat use of the values clause is to generate a truth table, so we can test the equivalence of boolean expressions:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">WITH</span> v(x) <span class="kw">AS</span> (<span class="kw">VALUES</span> (<span class="kw">TRUE</span>), (<span class="kw">FALSE</span>), (<span class="kw">NULL</span>)),</a>
-<a class="sourceLine" id="cb57-2" data-line-number="2">     truth_table <span class="kw">AS</span> (</a>
-<a class="sourceLine" id="cb57-3" data-line-number="3">         <span class="co">-- Get all pairings using a cross join!</span></a>
-<a class="sourceLine" id="cb57-4" data-line-number="4">        <span class="kw">SELECT</span> v.x <span class="kw">AS</span> a, v2.x <span class="kw">AS</span> b <span class="kw">FROM</span> v <span class="kw">CROSS</span> <span class="kw">JOIN</span> v <span class="kw">AS</span> v2</a>
-<a class="sourceLine" id="cb57-5" data-line-number="5">     )</a>
-<a class="sourceLine" id="cb57-6" data-line-number="6"><span class="kw">SELECT</span> a, b,</a>
-<a class="sourceLine" id="cb57-7" data-line-number="7">       (a <span class="kw">AND</span> b) <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">AS</span> form_one,</a>
-<a class="sourceLine" id="cb57-8" data-line-number="8">       (a <span class="kw">IS</span> <span class="kw">NULL</span>) <span class="kw">OR</span> (b <span class="kw">IS</span> <span class="kw">NULL</span>) <span class="kw">AS</span> form_two</a>
-<a class="sourceLine" id="cb57-9" data-line-number="9"><span class="kw">FROM</span> truth_table;</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> v(x) <span class="kw">AS</span> (<span class="kw">VALUES</span> (<span class="kw">TRUE</span>), (<span class="kw">FALSE</span>), (<span class="kw">NULL</span>)),</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>     truth_table <span class="kw">AS</span> (</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>         <span class="co">-- Get all pairings using a cross join!</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">SELECT</span> v.x <span class="kw">AS</span> a, v2.x <span class="kw">AS</span> b <span class="kw">FROM</span> v <span class="kw">CROSS</span> <span class="kw">JOIN</span> v <span class="kw">AS</span> v2</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> a, b,</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>       (a <span class="kw">AND</span> b) <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">AS</span> form_one,</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>       (a <span class="kw">IS</span> <span class="kw">NULL</span>) <span class="kw">OR</span> (b <span class="kw">IS</span> <span class="kw">NULL</span>) <span class="kw">AS</span> form_two</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> truth_table;</span></code></pre></div>
 <pre><code>a       b       form_one  form_two
 ------  ------  --------  --------
 1       1       0         0
