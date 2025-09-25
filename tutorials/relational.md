@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This tutorial is designed to get you started with our relational database and ready to complete the relational Tick. We'll be using a database of films, cast and crew information from the [Internet Movie Database (IMDb)](https://developer.imdb.com/non-commercial-datasets/). From here we'll use 'movie', instead of 'film', for consistency. The dataset from IMDb is not complete; it contains only ~10 people per movie, and only ~3 genres per movie -- but this will be enough for our purposes. It may mean that cast members you expect to see on a movie are missing, or links between movies you expect to find don't exist.
+This tutorial is designed to get you started with our relational database and ready to complete the relational Tick. We'll be using a database of films, cast and crew information from the [Internet Movie Database (IMDb)](https://developer.imdb.com/non-commercial-datasets/). From here we'll use 'movie', instead of 'film', for consistency. The dataset from IMDb is not complete; it doesn't list every person associated with a movie, and only ~3 lists genres per movie -- but this will be enough for our purposes. It may mean that cast members you expect to see on a movie are missing, or links between movies you expect to find don't exist. We've also limited it to a few thousand movies.
 
 Our relation database management system (DBMS) will be [SQLite](https://www.sqlite.org/index.html), a popular open-source format chosen for its simplicity. Unlike other mainstream database systems, such as [PostgreSQL](https://www.postgresql.org/) or [MariaDB](https://mariadb.org/), it does not use a client-server model. SQLite uses a single file to store the database and does not support multiple concurrent users. SQLite is widely used in mobile operating systems; iOS and Android both use SQLite databases extensively under the hood. All your text messages, WhatsApp and Signal chats will be stored in SQLite databases on your device, for example.
 
@@ -313,6 +313,7 @@ SELECT year, count(*) AS n_movies FROM movies WHERE year >= 2018 GROUP BY year O
 ```
 year  n_movies
 ----  --------
+2018  127
 2019  125
 2020  68
 2021  89
@@ -324,7 +325,7 @@ year  n_movies
 
 When using `GROUP BY`, any attribute selected in the `SELECT` clause **must** be in the `GROUP BY` clause or inside an aggregate function. The only exception to this is when you are grouping by the primary key of one table in a JOIN, in which case you can select other attributes from that table (since they are unique for that primary key value being grouped by).
 
-In the example above, imagine we tried to do `SELECT year, type, count(*) FROM movies GROUP BY year;`. For the grouped row with `year` equal to 2018, there are 56 different values for `type` in the rows we grouped together; which value should we pick for the returned row? In almost every relational database system except SQLite, attempting to run this query will throw an error. [SQLite is different](https://sqlite.org/quirks.html#aggregate_queries_can_contain_non_aggregate_result_columns_that_are_not_in_the_group_by_clause); it will pick a row arbitrarily, which may well not be what you want and may hide a mistake you have made. Take care here! 
+In the example above, imagine we tried to do `SELECT year, type, count(*) FROM movies GROUP BY year;`. For the grouped row with `year` equal to 2021, there are 89 different values for `type` in the rows we grouped together; which value should we pick for the returned row? In almost every relational database system except SQLite, attempting to run this query will throw an error. [SQLite is different](https://sqlite.org/quirks.html#aggregate_queries_can_contain_non_aggregate_result_columns_that_are_not_in_the_group_by_clause); it will pick a row arbitrarily, which may well not be what you want and may hide a mistake you have made. Take care here! 
 
 Of course, if we wanted to know how many movies of each type there were per year, we could use the query `SELECT year, type, count(*) FROM movies GROUP BY year, type;` which will do what we want, but will return multiple rows for each year; one for each of the types of movie released that year. This will **not** have the same result as the previous query! It will also not return rows for the "no movies of this type were released this year" case; i.e. there will not be any zero rows. Think about why this is, and what it might be possible to do if you wanted these zeroes too.
 
@@ -418,6 +419,14 @@ In this case we could also have used a `NATURAL JOIN`. Natural joins join tables
 
 In the real world, `NATURAL JOIN` is considered fragile and dangerous; the columns of a table are not fixed and a query that once worked can easily break if a new column is added that happens to have a shared name. The logic of how the join works is no longer in the query but determined by the current state of the database. Additionally, consider what happens when two tables have a common column name that is not related, such as a `last_updated` time; there are unlikely to be circumstances where we would want to join on equal last updated timestamps for different objects! Never use a `NATURAL JOIN`.
 
+The `JOIN ... USING` syntax is a safer form of natural join; if you are joining two tables on a shared column name, you can use:
+
+```sql
+SELECT * FROM movies JOIN ratings USING (movie_id);
+```
+
+Like a natural join, and unlike the inner joins above, this will only return the shared column name once in the result columns. It avoids the downsides of a natural join whilst still being less verbose than the `JOIN ... ON` syntax above, though it is much less flexible than that syntax.
+
 #### Multiple joins
 
 It is possible to join more than one table; we often want to join several tables together in a normalised database. Consider finding the names of the genres for each movie. We will need to use `movies`, `has_genre` and `genres`:
@@ -442,6 +451,16 @@ tt0015864  The Gold Rush  Drama
 tt0017136  Metropolis     Drama
 ```
 Each movie is associated with more than one genre and for each match via our joins, we get an additional row in the results. Notice that we used `movies.movie_id` in the `SELECT`; there are two `movie_id` columns in our joined set of columns, and we have to choose which one we want (even though we joined on that value and so know they are always equal).
+
+The `JOIN ... USING` syntax does avoid this issue, since only one version of the shared column is included in the results:
+
+```sql
+SELECT movie_id, title, genres.name FROM movies
+JOIN has_genre USING (movie_id)
+JOIN genres USING (genre_id)
+LIMIT 10;
+```
+
 
 
 ### Example query 2
@@ -468,7 +487,7 @@ Silver Linings Playbook  2012  764173
 500 Days of Summer       2009  601177
 Crazy, Stupid, Love.     2011  600746
 ```
-Since we need to join the `genres` and `has_genre` tables twice, we need to give each of them an alias using the `AS` construct so that we can be clear which constraints belong to which copy of the table.
+Since we need to join the `genres` and `has_genre` tables twice, we need to give each of them an alias using the `AS` construct so that we can be clear which constraints belong to which copy of the table. We cannot use `JOIN ... USING` here.
 
 
 ### Outer joins

@@ -57,23 +57,25 @@ The best way to see what these tables contain is to look at a document from each
  'name': 'Lauren Bacall',
  'birthyear': 1924,
  'deathyear': 2014,
- 'acted_in': [{'movie_id': 'tt0276919',
-               'title': 'Dogville',
-               'year': 2003,
-               'roles': ['Ma Ginger']}]}
+ 'acted_in': [{'movie_id': 'tt0100157', 'title': 'Misery', 'roles': ['Marcia Sindell'], 'year': 1990},
+              {'movie_id': 'tt0276919', 'title': 'Dogville', 'roles': ['Ma Ginger'], 'year': 2003}]}
 ```
 This is a Python dictionary (not quite JSON, note the single-quotes) representing a person JSON document. It has the same attributes as the relational `people` table; `person_id`, `name`, `birthyear`, `deathyear`. However, it has additional attributes too; we have de-normalised the data and collected everything about this person into a single object. We now have an additional `acted_in` attribute, that contains a list of the movies the person has acted in and the roles they played.
 
 What about someone who never acted, but only directed?
 ```python
-> tdb_people.get(doc_id=3)
-{'person_id': 'nm0000005',
- 'name': 'Ingmar Bergman',
- 'birthyear': 1918,
- 'deathyear': 2007,
- 'directed': [{'movie_id': 'tt0050976', 'title': 'The Seventh Seal', 'year': 1957},
-              {'movie_id': 'tt0050986', 'title': 'Wild Strawberries', 'year': 1957},
-              {'movie_id': 'tt0060827', 'title': 'Persona', 'year': 1966}]}
+> tdb_people.get(doc_id=21)
+{'person_id': 'nm0000033',
+ 'name': 'Alfred Hitchcock',
+ 'birthyear': 1899,
+ 'deathyear': 1980,
+ 'directed': [{'movie_id': 'tt0032976', 'title': 'Rebecca', 'year': 1940},
+              {'movie_id': 'tt0046912', 'title': 'Dial M for Murder', 'year': 1954},
+              {'movie_id': 'tt0047396', 'title': 'Rear Window', 'year': 1954},
+              {'movie_id': 'tt0052357', 'title': 'Vertigo', 'year': 1958},
+              {'movie_id': 'tt0053125', 'title': 'North by Northwest', 'year': 1959},
+              {'movie_id': 'tt0054215', 'title': 'Psycho', 'year': 1960},
+              {'movie_id': 'tt0056869', 'title': 'The Birds', 'year': 1963}]}
 ```
 This time we don't have an `acted_in` attribute but a `directed` attribute instead. Our people documents do not have to have a fixed schema, we can exclude attributes that aren't relevant. The possible attributes for the positions people had are `acted_in`, `directed`, `produced`, `wrote`, and `composed_for`. Inside each is a list of movie objects that contain the `movie_id`, `title`, `year` and may contain `job` information. Someone who acted and directed would have both `acted_in` and `directed` attributes, for example.
 
@@ -86,24 +88,29 @@ These notes aside, what about documents in the `movies` table?
 > tdb_movies.get(doc_id=1)
 {'movie_id': 'tt0012349',
  'title': 'The Kid',
- 'year': 1921,
  'type': 'movie',
- 'minutes': 68,
+ 'year': 1921,
  'genres': ['Comedy', 'Drama', 'Family'],
- 'rating': 8.3,
- 'rating_votes': 130363,
- 'actors': [{'person_id': 'nm0088471', 'name': 'B.F. Blinn', 'roles': ['His Assistant']},
-            {'person_id': 'nm0000122', 'name': 'Charles Chaplin', 'roles': ['A Tramp']},
-            {'person_id': 'nm0701012', 'name': 'Edna Purviance', 'roles': ['The Woman']},
-            {'person_id': 'nm0001067', 'name': 'Jackie Coogan', 'roles': ['The Child']},
-            {'person_id': 'nm0588033', 'name': 'Carl Miller', 'roles': ['The Man']},
-            {'person_id': 'nm0042317', 'name': 'Albert Austin', 'roles': ['Car Thief', 'Man in Shelter']},
-            {'person_id': 'nm0047800', 'name': 'Beulah Bains', 'roles': ['Bride']},
-            {'person_id': 'nm0048798', 'name': 'Nellie Bly Baker', 'roles': ['Slum Nurse']},
-            {'person_id': 'nm0074788', 'name': 'Henry Bergman', 'roles': ['Professor Guido', 'Night Shelter Keeper']},
-            {'person_id': 'nm0080930', 'name': 'Edward Biby', 'roles': ['Orphan Asylum Driver']}]}
+ 'minutes': 68,
+ 'rating': 8.2,
+ 'rating_votes': 142991,
+ 'actors': [{'name': 'Charles Chaplin', 'person_id': 'nm0000122', 'roles': ['A Tramp']},
+            {'name': 'Edna Purviance', 'person_id': 'nm0701012', 'roles': ['The Woman']},
+            {'name': 'Jackie Coogan', 'person_id': 'nm0001067', 'roles': ['The Child']},
+            {'name': 'Carl Miller', 'person_id': 'nm0588033', 'roles': ['The Man']},
+            {'name': 'Albert Austin', 'person_id': 'nm0042317', 'roles': ['Car Thief', 'Man in Shelter']},
+            {'name': 'Beulah Bains', 'person_id': 'nm0047800', 'roles': ['Bride']},
+            {'name': 'Nellie Bly Baker', 'person_id': 'nm0048798', 'roles': ['Slum Nurse']},
+            {'name': 'Henry Bergman', 'person_id': 'nm0074788', 'roles': ['Professor Guido', 'Night Shelter Keeper']},
+            {'name': 'Edward Biby', 'person_id': 'nm0080930', 'roles': ['Orphan Asylum Driver']},
+            {'name': 'B.F. Blinn', 'person_id': 'nm0088471', 'roles': ['His Assistant']}],
+ 'directors': [{'job': 'director', 'name': 'Charles Chaplin', 'person_id': 'nm0000122'}],
+ 'producers': [{'job': 'producer', 'name': 'Charles Chaplin', 'person_id': 'nm0000122'}],
+ 'writers': [{'job': 'written by', 'name': 'Charles Chaplin', 'person_id': 'nm0000122'}],
+ 'composers': [{'job': 'composer', 'name': 'Charles Chaplin', 'person_id': 'nm0000122'}],
+ 'trivia_entries': [...]}
 ```
-We can see that it again has attributes much like the relational `movies` table did: `movie_id`, `title`, `type`, `minutes`. Additionally, the genres associated with the movie are stored as a list by name in the `genres` key. The actors and the roles they play are also stored as objects in the `actors` key. If the movie had director information, they would be listed under `directors`; likewise with `producers`, `writers` and `composers`.
+We can see that it again has attributes much like the relational `movies` table did: `movie_id`, `title`, `type`, `minutes`. Additionally, the genres associated with the movie are stored as a list by name in the `genres` key. The actors and the roles they play are also stored as objects in the `actors` key; likewise with  `directors`, `producers`, `writers` and `composers`. Movies may not have all of these keys.
 
 We don't need to use `null` values in our JSON documents, we can just exclude the key entirely. There is a lot of duplication and redundancy in this document format; the same movie titles and people's names occur in many different documents. For a dataset like historic movie data, this is unlikely to be an issue; in the film industry people rarely change their professional name and movies are unlikely to be renamed. In other use-cases, this redundancy might present more challenges.
 
@@ -123,22 +130,32 @@ This returns the 'Barbie' movie document:
 ```python
 {'movie_id': 'tt1517268',
  'title': 'Barbie',
- 'year': 2023,
  'type': 'movie',
- 'minutes': 114,
+ 'year': 2023,
  'genres': ['Adventure', 'Comedy', 'Fantasy'],
- 'rating': 7.5,
- 'rating_votes': 98056,
+ 'minutes': 114,
+ 'rating': 6.8,
+ 'rating_votes': 625996,
  'actors': [{'person_id': 'nm3053338', 'name': 'Margot Robbie', 'roles': ['Barbie']},
             {'person_id': 'nm0331516', 'name': 'Ryan Gosling', 'roles': ['Ken']},
             {'person_id': 'nm4793987', 'name': 'Issa Rae', 'roles': ['Barbie']},
-            {'person_id': 'nm0571952', 'name': 'Kate McKinnon', 'roles': ['Barbie']}],
+            {'person_id': 'nm0571952', 'name': 'Kate McKinnon', 'roles': ['Weird Barbie']},
+            {'person_id': 'nm3381295', 'name': 'Alexandra Shipp', 'roles': ['Barbie']},
+            {'person_id': 'nm8076281', 'name': 'Emma Mackey', 'roles': ['Barbie']},
+            {'person_id': 'nm6341515', 'name': 'Hari Nef', 'roles': ['Barbie']},
+            {'person_id': 'nm5287110', 'name': 'Sharon Rooney', 'roles': ['Barbie']},
+            {'person_id': 'nm2474626', 'name': 'Ana Cruz Kayne', 'roles': ['Barbie']},
+            {'person_id': 'nm5709125', 'name': 'Ritu Arya', 'roles': ['Journalist Barbie']}],
  'directors': [{'person_id': 'nm1950086', 'name': 'Greta Gerwig'}],
  'producers': [{'person_id': 'nm3943537', 'name': 'Tom Ackerley', 'job': 'producer'},
                {'person_id': 'nm0107509', 'name': 'Robbie Brenner', 'job': 'producer'},
-               {'person_id': 'nm0382268', 'name': 'David Heyman', 'job': 'producer'}],
- 'writers': [{'person_id': 'nm0000876', 'name': 'Noah Baumbach', 'job': 'written by'}],
- 'composers': [{'person_id': 'nm1053148', 'name': 'Mark Ronson'}]}
+               {'person_id': 'nm0382268', 'name': 'David Heyman', 'job': 'producer'},
+               {'person_id': 'nm3053338', 'name': 'Margot Robbie', 'job': 'producer'}],
+ 'writers': [{'person_id': 'nm1950086', 'name': 'Greta Gerwig', 'job': 'written by'},
+             {'person_id': 'nm0000876', 'name': 'Noah Baumbach', 'job': 'written by'}],
+ 'composers': [{'person_id': 'nm1053148', 'name': 'Mark Ronson'},
+               {'person_id': 'nm1961278', 'name': 'Andrew Wyatt'}],
+ 'trivia_entries': [...]}
 ```
 
 We can also use the "fragment" approach, to find a document which contains the fragment provided:
@@ -167,16 +184,18 @@ Often we will want to find multiple documents that match some criteria. We can u
 tdb_movies.search(Query().year >= 2021)
 ```
 ```python
-[{'movie_id': 'tt0439572',
-  'title': 'The Flash',
-  'year': 2023,
+[{'movie_id': 'tt0293429',
+  'title': 'Mortal Kombat',
+  'year': 2021,
   # ...
   },
- # and 99 more movies . . .
+ # and 382 more movies . . .
  ]
 ``` 
 
-TinyDB doesn't offer any limiting or sorting; at the end of the day it runs in-memory on the machine running the query, so any limiting or sorting can be done by the user directly. If we want to sort by most recent by `year`, we can do it directly with Python's built-in `sorted` function. The `sorted` method can take a `key` function that decides what attribute(s) of an object to sort on:
+TinyDB doesn't offer any limiting or sorting; it runs in-memory on the machine running the query, so any limiting or sorting can be done by the user directly without unnecessary data transfer or loading. Full-featured document databases do usually support sorting and limiting, because they use a client-server model where transferring data that would be filtered out comes with a cost.
+
+If we want to sort by most recent by `year`, we can do it directly with Python's built-in `sorted` function. The `sorted` method can take a `key` function that decides what attribute(s) of an object to sort on:
 ```python
 sorted(tdb_movies.search(Query().year >= 2021), key=lambda m: m.get("year"), reverse=True)
 ```
@@ -185,17 +204,15 @@ We could also limit it to only 10 of these movies using Python's list slicing:
 sorted(tdb_movies.search(Query().year >= 2021), key=lambda m: m.get("year"), reverse=True)[:10]
 ```
 
-Full-featured document databases do usually support sorting and limiting, because they use a client-server model where transferring unnecessary data comes with a cost.
-
 #### Counting results
 
 Rather than a list of all the matching documents, we may just want to know how many of them there are. Instead of `.search(...)`, we can use `.count(...)` with exactly the same query arguments.
 
-How many movies are there created after 2021?
+How many movies are there created since 2021?
 ```python
 tdb_movies.count(Query().year >= 2021)
 ```
-This returns `100`.
+This returns `383`.
 
 Subsequent examples will use `count` rather than `search`, to reduce the amount of output printed. You can always simply swap to `search` to see the full list. You could also use the relational database as a way of checking that the result numbers are correct.
 

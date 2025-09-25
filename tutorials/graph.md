@@ -119,7 +119,7 @@ LIMIT 10;
 
 It is possible to match longer paths along relationships without typing them all out. The `*` operator allows us to quantify how many relationship hops to make. If we wanted to find a Bacon-number style link between Jennifer Lawrence and Daniel Radcliffe, for example, we can squash the `[:ACTED_IN]` hops together.
 
-A `*` by itself is unbounded; this will likely match far too many paths. Instead, we can list a specific number (remembering that it must be even!), using `[:ACTED_IN*2]` and then `*4`, `*6` and `*8` until we finally find a path that works:
+A `*` by itself is unbounded; this will likely match far too many paths. Instead, we can list a specific number (remembering that it must be even!), using `[:ACTED_IN*2]` and then `*4`, `*6`, etc, until we find paths:
 ```cypher
 MATCH path=(m:Person {name : 'Jennifer Lawrence'})
             -[:ACTED_IN*4]-
@@ -127,7 +127,7 @@ MATCH path=(m:Person {name : 'Jennifer Lawrence'})
 RETURN path;
 ```
 
-Or we could have bounded the number of hops to search directly, to between 2 and 10:
+Or we could have bounded the number of hops to search directly, to between 2 and 6:
 ```cypher
 // This will match a lot of nodes, be careful!
 MATCH path=(m:Person {name : 'Jennifer Lawrence'})
