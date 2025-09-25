@@ -54,3 +54,8 @@ To export the Neo4j database to file, stop the database server and then use the 
 ## Tutorials
 
 There are tutorials for using the two main databases for the course: [relational database tutorial](tutorials/relational.md); [document database tutorial](tutorials/document.md).
+
+The HTML versions can be generated using something like [pandoc](https://pandoc.org):
+```bash
+pandoc -s --wrap none -V maxwidth=120ex -o graph.html graph.md
+```
